@@ -265,8 +265,3 @@ def check(request):
         return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-def qrcam(request):
-    page = 'pages/index.html'
-    template = loader.get_template(page)
-    return HttpResponse(template.render({'header': 'TESTING confirm VIEW'}, request), status=status.HTTP_200_OK)
