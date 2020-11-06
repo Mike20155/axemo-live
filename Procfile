@@ -1,1 +1,1 @@
-web: gunicorn axemolive.wsgi 
+web: gunicorn axemolive.wsgi
