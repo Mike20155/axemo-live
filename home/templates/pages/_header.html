@@ -1,0 +1,110 @@
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'assets/css/card.css' %}" type="text/css">
+
+
+<body>
+  <!-- Main content -->
+  <div class=" main-content" id="panel">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark border-bottom"  style=" background-color: #0027e3; !important;">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+          <!-- Navbar links -->
+          <ul class="navbar-nav align-items-center  ml-md-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="ni ni-bell-55"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
+                <!-- Dropdown header -->
+                <div class="px-3 py-3">
+                  <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">0</strong> notifications.</h6>
+                </div>
+                <!-- List group -->
+                <div class="list-group list-group-flush">
+                  <a href="#!" class="list-group-item list-group-item-action">
+                    <div class="row align-items-center">
+                      <div class="col ml--2">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div>
+                            <h4 class="mb-0 text-sm">    </h4>
+                          </div>
+                          <div class="text-right text-muted">
+                            <small>    </small>
+                          </div>
+                        </div>
+                        <p class="text-sm mb-0">    </p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- View all -->
+
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="ni ni-ungroup" ></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
+                <div class="row shortcuts px-4">
+                  <a href="#!" class="col-4 shortcut-item">
+                    <span class="shortcut-media avatar rounded-circle bg-gradient-default">
+                      <img src="https://img.icons8.com/nolan/64/safe.png"/>
+                    </span>
+                    <small style="margin-left: 7px">Vault</small>
+                  </a>
+                  <a href="{% url 'info' %}" class="col-4 shortcut-item">
+                    <span class="shortcut-media avatar rounded-circle bg-gradient-default">
+                      <img src="https://img.icons8.com/nolan/64/flow-chart.png"/>
+                    </span>
+                    <small>Affiliate</small>
+                  </a>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+
+            <li class="nav-item dropdown">
+              <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true">
+                <div class="media align-items-center">
+                  <div>
+                    <span class="mb-0 text-sm  font-weight-bold"  style="margin-right: 10px">{{ user}}</span>
+                  </div>
+                  <span class="avatar avatar-sm rounded-circle" style="background-color: #0027e3">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+width="24" height="24"
+viewBox="0 0 171 171"
+style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,171.99219v-171.99219h171.99219v171.99219z" fill="none"></path><path d="M85.99609,171.49609c-47.22035,0 -85.5,-38.27965 -85.5,-85.5v0c0,-47.22035 38.27965,-85.5 85.5,-85.5v0c47.22035,0 85.5,38.27965 85.5,85.5v0c0,47.22035 -38.27965,85.5 -85.5,85.5z" fill="#0027e3"></path><g fill="#000000"><path d="M85.49889,30.21c-15.11184,0 -27.36,12.24816 -27.36,27.36v4.56c0,15.11184 12.24816,27.36 27.36,27.36c15.11184,0 27.36,-12.24816 27.36,-27.36v-4.56c0,-15.11184 -12.24816,-27.36 -27.36,-27.36zM85.48998,103.17c-18.26736,0 -41.70576,9.88081 -48.45,18.64969c-4.16784,5.42184 -0.20028,13.27031 6.63516,13.27031h83.63859c6.83544,0 10.803,-7.84847 6.63516,-13.27031c-6.74424,-8.76432 -30.19155,-18.64969 -48.45891,-18.64969z"></path></g></g></svg>
+                  </span>
+
+                </div>
+              </a>
+              <div class="dropdown-menu  dropdown-menu-right ">
+                <div class="dropdown-header noti-title">
+                  <h6 class="text-overflow m-0">Welcome!</h6>
+                </div>
+                <a href="{% url 'profile' %}" class="dropdown-item">
+                  <i class="ni ni-single-02"></i>
+                  <span>My profile</span>
+                </a>
+                <a href="#!" class="dropdown-item">
+                  <i class="ni ni-support-16"></i>
+                  <span>Support</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="{% url 'logout' %}" class="dropdown-item">
+                  <i class="ni ni-user-run"></i>
+                  <span>Logout</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</body>

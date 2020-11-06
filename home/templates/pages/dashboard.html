@@ -1,0 +1,473 @@
+{% extends 'pages/_base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'pages/_header.html' %}
+    <!-- Header -->
+<body  style="background-color: #0027e3 !important;">
+<div class="header  pb-6" style="background-color: #0027e3; width: 100; !important;">
+      <div class="container-fluid">
+        <div class="header-body">
+            <div class="container-fluid ">
+                <div class="col">
+                    <span>
+                    </span>
+                </div>
+                <div class="col">
+                    <center>
+                    <span>
+                        <h3 class="text-muted  mt-10" style="margin-bottom: -10px; font-weight: 400;">Balance</h3>
+                        <h1 class="display-1 mt-1" style="color: white; font-weight: 500;
+                        background-color: #0027e3;">NGN {{ integer }}0</h1>
+                    </span>
+                        </center>
+                </div>
+            </div>
+                                <!-- Card stats -->
+          <div class="scrolling" style="overflow: auto; padding-right:30px !important; padding-left:2px !important; " >
+            <div class="row flex-row flex-nowrap ">
+              {% for c in x %}
+              <div class="col" style="padding :19px !important;">
+                <div class="cardie" >
+                  <div class="cardie__front cardie__part">
+                    <img class="cardie__front-square cardie__square"
+                         style="padding-left:4px !important; padding-top:8px !important;" src=''>
+                    <img class="cardie__front-logo cardie__logo" src="">
+                    <p class="cardie_numer">
+                     {% if c == 'BITCOIN' %}
+                      <img src="{% static 'assets/img/icons/common/btc.png' %}">
+                      {% elif c == "ETHERUM"  %}
+                      <img src="{% static 'assets/img/icons/common/eth.png' %}">
+                      {% elif c == "LITECOIN"  %}
+                      <img src="{% static 'assets/img/icons/common/ltc.png' %}">
+                      {% elif c == "BITCOINCASH"  %}
+                      <img src="{% static 'assets/img/icons/common/bch.png' %}">
+                      {% elif c == "NAIRA"  %}
+                    <img src="{% static 'assets/img/icons/common/ngn.png' %}">
+                        {% else %}
+                        {% endif %}
+                      </p>
+                    <div class="cardie__space-75">
+                      <span class="cardie__label" style="padding-left:20px !important;">Currency</span>
+                      <p class="cardie__info" style="padding-left:20px !important;">{{c}}</p>
+                    </div>
+                    <div class="cardie__space-25">
+                      <span class="cardie__label" >balance</span>
+                      <p class="cardie__info" style="margin-left: -40px">
+                        {% if c == 'BITCOIN' %}{{btc}}
+                        {% elif c == "ETHERUM"  %}{{eth}}
+                        {% elif c == 'LITECOIN' %}{{ltc}}
+                        {% elif c == 'BITCOINCASH' %}{{bch}}
+                        {% elif c == 'NAIRA' %}{{naira}}
+                        {% else %}
+                        {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="cardie__back cardie__part">
+                      <div class="cardie__black-line">
+                      </div>
+                      <div class="cardie__back-content">
+                          {% if c == 'NAIRA' %}
+                             <a href="{% url 'naira' %}">
+                              <button type="button" style="font-size: .875rem;
+    font-weight: 600;
+    line-height: -5;
+    width: 100% ;
+    height: 35px;
+    display: inline-block;
+
+    padding: .625rem 1.25rem;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color
+     .15s ease-in-out, box-shadow .15s ease-in-out;
+    text-align: center;
+    vertical-align: middle;
+
+    color: #525f7f;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    background-color: transparent;  color: #fff;
+    border-color: #fb6340;
+    background-color: #fb6340;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+    color: #fff;
+    border-color: #0027e3;
+    background-color:  #0027e3;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+    color:  # fff;
+    border - color:  #  #0027e3;
+    background-color: #0027e3;">Tap here to use this account</button>
+                          </a>
+                          {% else %}
+                          <a href="{% url 'crypto' c%}">
+                              <button type="button" style="font-size: .875rem;
+    font-weight: 600;
+    line-height: -5;
+    width: 100% ;
+    height: 35px;
+    display: inline-block;
+
+    padding: .625rem 1.25rem;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color
+     .15s ease-in-out, box-shadow .15s ease-in-out;
+    text-align: center;
+    vertical-align: middle;
+
+    color: #525f7f;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    background-color: transparent;  color: #fff;
+    border-color: #fb6340;
+    background-color: #fb6340;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+    color: #fff;
+    border-color: #0027e3;
+    background-color:  #0027e3;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+    color:  # fff;
+    border - color:  #  #0027e3;
+    background-color: #0027e3;">Tap here to use this account</button>
+                          </a>
+                          {% endif %}
+                          <img class="cardie__back-square cardie__square" src="">
+                          <img class="cardie__back-logo cardie__logo" src="">
+                      </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+
+ <!-- Active Investments -->
+    <div class="container-fluid mt--6">
+      <div class="row justify-content-md-center">
+        <div class=" col ">
+          <div class="card">
+            <div class="card-header bg-transparent">
+                <div class="row justify-content-center">
+                    <div class="card-header">
+                        <div class="row justify-content-center">
+                            <h3 class="display-3 mt--2" style="font-size: 1000; font-weight: 300; min-width: 100%; color:  green">Active Investments</h3>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                </div>
+                <div class="card-body">
+                    <div class="row icon-examples">
+                        <div class="container">
+                            {% if invested == None %}
+                            <div class="row justify-content-center">
+                             <h3 class="text-muted" style="font-weight: 400;">No active investment</h3>
+                            </div>
+                            {% else %}
+
+                            <div class="row">
+                                <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -6px;">
+                                    <i class="bg-success"></i></span>
+                                <h3 style="margin-left: -20px; font-weight: 300;">ID: {{ invested.id}}</h3><h2 style="margin-left: 10px; font-weight: 500;">| Capital: ${{ invested.fiat }}</h2>
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-left: 20px; margin-bottom: 10px;"
+                                data-toggle="modal"
+                              data-target="#modal-view">View</button>
+                              </div>
+                            {% endif %}
+                            <hr style="margin-bottom: -30px; margin-top: 5px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="row justify-content-center">
+                          <button type="button" class="btn  btn-icon btn-success"  data-toggle="modal"
+                              data-target="#modal-invest" style="float: right; min-width: 130px;">
+                        <span class="btn-inner--icon"><i class="ni ni-money-coins"></i></span>
+                        <span class="btn-inner--text">invest +</span>
+                      </button>
+</div>
+
+
+
+
+<form action='{% url "invest" %}' method="post">
+      {% csrf_token %}
+
+      <div class="modal fade" id="modal-invest" tabindex="-1" role="dialog" aria-labelledby="modal-amount"
+                    aria-hidden="true">
+              <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                <div class="modal-content bg-gradient-success">
+                  <div class="modal-header">
+                   <h1 class="modal-title" id="modal-title-invest">How much would you like to invest?</h1>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                   </button>
+                  </div>
+
+
+            <div class="modal-body">
+              <div class="container">
+                <div class="row">
+                <div class="col-sm">
+                  <div class="form-group">
+
+                  <div class="row">
+                      <div class="custom-control custom-radio mb-4" style="margin-left: 33px" >
+
+                    <input type="radio" value="BTC" id="customRadio1" name="currency"
+                           class="custom-control-input" checked/>
+                    <label class="custom-control-label" for="customRadio1" style="width: 20px">BTC</label>
+                  </div>
+
+                  <div class="custom-control custom-radio mb-4" style="margin-left: 40px" >
+                    <input type="radio" value="ETH" id="customRadio2" name="currency" class="custom-control-input"/>
+                   <label class="custom-control-label" for="customRadio2" style="width: 20px">ETH</label>
+                  </div>
+
+                  <div class="custom-control custom-radio mb-4" style="margin-left: 40px" >
+                    <input type="radio" value="LTC" id="customRadio3" name="currency" class="custom-control-input"/>
+                    <label class="custom-control-label" for="customRadio3" style="width: 20px">LTC</label>
+                  </div>
+                  <div class="custom-control custom-radio" style="margin-left: 40px" >
+                    <input type="radio" value="BCH" id="customRadio4" name="currency" class="custom-control-input"/>
+                   <label class="custom-control-label" for="customRadio4" style="width: 20px">BCH</label>
+                  </div>
+                  </div>
+
+
+
+                    <div class="input-group input-group-merge input-group-alternative">
+                      <div class="input-group-prepend">
+                     <span class="input-group-text"><i class="ni ni-money-coins"></i></span>
+                      </div>
+                      <input class="form-control" name="amount" placeholder="Amount" type="text">
+                    </div>
+                           <h5 class="text-muted" style="margin-top: 20px">Note: Please enter the dollar equivalent of the crypto-currency selected</h5>
+<h5 class="text-danger" style="margin-top: 20px">Important!: Please make sure you cross-check your entries before confirming. A confirmed investment cannot be reversed.</h5>
+
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+                  <div class="modal-footer">
+                    <div class="row">
+                      <div class="col-sm" >
+                        <button type="button" class="btn btn-primary btn-warning" data-toggle="modal"
+                                data-dismiss="modal">Cancel</button>
+                             <button type="submit" class="btn btn-primary">Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+</form>
+
+
+
+
+
+
+              <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-labelledby="modal-view"
+                    aria-hidden="true">
+              <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                <div class="modal-content bg-gradient-success">
+                  <div class="modal-header">
+                   <h2 class="modal-title" id="modal-title-amount" >Investment over-view</h2>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                   </button>
+                  </div>
+
+
+            <div class="modal-body">
+              <div class="container">
+                <div class="col-sm">
+                    <div class="row justify-content-center" style="margin-top: -20px;">
+                        <div class="col">
+                            <center>
+                                <span>
+                                    <h3 class="text-muted" style="font-weight: 400;">Total earned</h3>
+                                    <h1 class="display-1 mt--3" style="font-weight: 600;">${{invested.total_paid}}</h1>
+                                </span>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="col">
+                    <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
+                        <i class="bg-info"></i>ID: <label style="color: black; font-weight: 700;">{{invested.id}}</label></span>
+                        <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
+                            <i class="bg-info"></i>Percentage earned: <label style="color: black; font-weight: 700;">{{invested.percentage}}%</label></span>
+                    <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px; ">
+                        <i class="bg-info"></i>Capital: <label style="color: black; font-weight: 700; margin-right: 1000px;">${{invested.fiat}}</label></span>
+                        <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
+                            <i class="bg-info"></i>Currency: <label style="color: black; font-weight: 700;">{{invested.currency}}</label></span>
+                           <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
+                               <i class="bg-info"></i>{{invested.currency}} equivalent: <label style="color: black; font-weight: 700;">{{invested.currency}} 0.009382</label></span>
+                         <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
+                             <i class="bg-info"></i>Date created: <label style="color: black; font-weight: 700;">{{invested.start}}</label></span>
+                    </div>
+                </div>
+              </div>
+            </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-sm" >
+                             <button type="button" class="btn btn-danger " data-toggle="modal" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              </div>
+
+
+
+
+
+
+
+ <!-- Page content -->
+    <div class="container-fluid mt-4">
+      <div class="row justify-content-md-center">
+        <div class=" col ">
+          <div class="card">
+            <div class="card-header bg-transparent">
+                <div class="row justify-content-center">
+                </div>
+            </div>
+
+
+          <div class="card-body" style="background-color: #ffffff;">
+              <div class="row icon-examples">
+                <div class="container">
+                  <div class="row justify-content-center" >
+                      <div style="min-width: 100%; margin-top: -26px">
+                          <div style="height:200px; padding:0px; margin:0px; width: 100%;">
+                              <iframe src="https://widget.coinlib.io/widget?type=single_v2&theme=light&coin_id=859&pref_coin_id=1523"
+                                      width="100%" height="220px" marginwidth="0" marginheight="0"
+                                      frameborder="0" style="border:0;margin:0;padding:0;line-height:14px;">
+
+                              </iframe></div>
+                      </div>
+
+                      <div style="min-width: 100%">
+                              <div style="height:200px; padding:0px; margin:0px; width: 100%;">
+            <iframe src="https://widget.coinlib.io/widget?type=single_v2&theme=light&coin_id=145&pref_coin_id=1523"
+                    width="100%" height="220px" marginwidth="0" marginheight="0" frameborder="0"
+                     style="border:0;margin:0;padding:0;line-height:14px;">
+
+            </iframe></div>
+                      </div>
+
+                      <div style="min-width: 100%">
+               <div style="height:200px; padding:0px; margin:0px; width: 100%;">
+                   <iframe src="https://widget.coinlib.io/widget?type=single_v2&theme=light&coin_id=157&pref_coin_id=1523"
+                           width="100%" height="220px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0"
+                            style="border:0;margin:0;padding:0;line-height:14px;"></iframe></div>
+                    </div>
+
+                      <div style="min-width: 100%">
+                          <div style="height:200px; padding:0px; margin:0px; width: 100%;">
+                              <iframe src="https://widget.coinlib.io/widget?type=single_v2&theme=light&coin_id=359&pref_coin_id=1523"
+                                      width="100%" height="220px" marginwidth="0" marginheight="0"
+                                      frameborder="0" style="border:0;margin:0;padding:0;line-height:14px;">
+
+                              </iframe></div>
+                      </div>
+                      <div class="row justify-content-center" style="margin-top: 30px; margin-bottom: -20px" >
+                  <h1 style="font-weight: 600; min-width: 100% ">Highlights</h1>
+                </div>
+                      <div class="card-body" style="min-width: 100%">
+                          <script type="text/javascript">
+baseUrl = "https://widgets.cryptocompare.com/";
+var scripts = document.getElementsByTagName("script");
+var embedder = scripts[ scripts.length - 1 ];
+var cccTheme = {"General":{"borderColor":"#ffffff"},"Chart":{"fillColor":"#b6f2ec","borderColor":"#38c9eb"}};
+(function (){
+var appName = encodeURIComponent(window.location.hostname);
+if(appName==""){appName="local";}
+var s = document.createElement("script");
+s.type = "text/javascript";
+s.async = true;
+var theUrl = baseUrl+'serve/v1/coin/feed?fsym=BTC&tsym=USD';
+s.src = theUrl + ( theUrl.indexOf("?") >= 0 ? "&" : "?") + "app=" + appName;
+embedder.parentNode.appendChild(s);
+})();
+</script></div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+              </div>
+          </div>
+
+
+
+
+<div class="col-xl-4 row justify-content-center" style="min-width: 100%;">
+    <!-------------place back to top function here. i have already placed the arrow in it-------->
+          <div class="card"  style="max-width: 500px; margin-left: 20px;  background-color: #0027e3">
+            <div class="card-header bg-transparent">
+                <a  onclick="topFunction()">
+              <div class="row justify-content-center" style="margin-top: -10px; margin-bottom: -10px">
+                <span class="text-secondary mr-2" style="margin-left: 7px"><i class="fa fa-arrow-up"></i></span>
+              </div>
+                    </a>
+            </div>
+          </div>
+
+         </div>
+      </div>
+    </div>
+</div>
+        <script>function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}</script>
+      <!-- Footer -->
+
+       <footer class="footer pt-0" style="margin-top: 20px; background-color: #0027e3  ">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6">
+            <div class="copyright text-center  text-lg-left  text-muted">
+              &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Axemo</a>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com" class="nav-link" style="color: white" target="_blank">axemo</a>
+              </li>
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com/presentation" class="nav-link"  style="color: white" target="_blank">About us</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+  <!-- Argon Scripts -->
+  <!-- Core -->
+
+  <!-- Optional JS -->
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.extension.js' %}"></script>
+  <!-- Argon JS -->
+</body>
+  {% endblock %}
