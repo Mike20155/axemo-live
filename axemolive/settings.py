@@ -94,11 +94,24 @@ WSGI_APPLICATION = 'axemolive.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd3skj8064trmai',
+        'HOST':  'ec2-35-174-88-65.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'spxakgvtmqpssy',
+        'PASSWORD': 'f38fb4fe5022e2c7e2441927ddcaf007e70d182c5999dc951b88d0000f3d1372',
+
     }
 }
 
+
+
+"""DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}"""
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
