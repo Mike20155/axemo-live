@@ -22,10 +22,8 @@ def CoinbaseNotification(request):
     """
 
     if request.method == 'GET':
-        page = 'notify.html'
-        template = loader.get_template(page)
-        context = {'user': request.user}
-        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+        return Response({'hey': 'get'})
+
 
     if request.method == 'POST':
         notify = request.POST
@@ -36,5 +34,7 @@ def CoinbaseNotification(request):
 
         print(notify)
         return Response(status=status.HTTP_200_OK)
+
+
 
 
