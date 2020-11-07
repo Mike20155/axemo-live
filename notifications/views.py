@@ -33,8 +33,9 @@ def CoinbaseNotification(request):
         notif.save()
 
         print(notify)
-        return Response(status=status.HTTP_200_OK)
+        return HttpResponse(status=status.HTTP_200_OK)
 
 
 
 
+'https://hidden-hollows-00126.herokuapp.com/webhooks/coinbase-webhook/'
