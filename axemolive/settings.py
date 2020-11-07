@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'affiliate.apps.AffiliateConfig',
     'deposit_withdraw.apps.DepositWithdrawConfig',
     'investments.apps.InvestmentsConfig',
+    'notifications.apps.NotificationsConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
