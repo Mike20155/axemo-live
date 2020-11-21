@@ -22,27 +22,22 @@ def CoinbaseNotification(request):
     Retrieve, update or delete a code snippet.
     """
 
-    if request.method == 'GET':
-        return Response({'hey': 'get'})
+    notify = request.POST
+    notif = notify.dict()
+    data_type = type(notify)
 
-    if request.method == 'POST':
-        notify = request.POST
-        notif = notify.dict()
-        data_type = type(notify)
+    notif = Notifications(data=notif, data_type=data_type)
+    notif.save()
 
+    user_id = request.GET.get('test', None)
+    data_type = type(user_id)
 
+    nots = Notifications(data=user_id, data_type=data_type)
+    nots.save()
 
-        notif = Notifications(data=notif, data_type=data_type)
-        notif.save()
+    print(notify)
+    return HttpResponse(status=status.HTTP_200_OK)
 
-        user_id = request.GET.get('test', None)
-        data_type = type(user_id)
-
-        nots = Notifications(data=user_id, data_type=data_type)
-        nots.save()
-
-        print(notify)
-        return HttpResponse(status=status.HTTP_200_OK)
 
 
 
