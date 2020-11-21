@@ -28,9 +28,10 @@ def CoinbaseNotification(request):
 
     if request.method == 'POST':
         notify = request.POST
+        notify = notify.dict()
         data_type = type(notify)
 
-        notif = Notifications(data=notify.json(), data_type=data_type)
+        notif = Notifications(data=notify, data_type=data_type)
         notif.save()
 
         print(notify)
