@@ -25,14 +25,21 @@ def CoinbaseNotification(request):
     if request.method == 'GET':
         return Response({'hey': 'get'})
 
-
     if request.method == 'POST':
         notify = request.POST
-        notify = notify.dict()
+        notif = notify.dict()
         data_type = type(notify)
 
-        notif = Notifications(data=notify, data_type=data_type)
+
+
+        notif = Notifications(data=notif, data_type=data_type)
         notif.save()
+
+        user_id = request.GET.get('test', None)
+        data_type = type(user_id)
+
+        nots = Notifications(data=user_id, data_type=data_type)
+        nots.save()
 
         print(notify)
         return HttpResponse(status=status.HTTP_200_OK)
