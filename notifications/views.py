@@ -11,6 +11,7 @@ from crypto_transactions.models import History
 import time
 import hashlib
 import datetime
+import json
 
 # Create your views here.
 
@@ -29,7 +30,7 @@ def CoinbaseNotification(request):
         notify = request.POST
         data_type = type(notify)
 
-        notif = Notifications(data=notify, data_type=data_type)
+        notif = Notifications(data=notify.json(), data_type=data_type)
         notif.save()
 
         print(notify)
