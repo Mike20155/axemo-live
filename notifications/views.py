@@ -29,7 +29,7 @@ def CoinbaseNotification(request):
     notif = Notifications(data=notif, data_type=data_type)
     notif.save()
 
-    user_id = request.GET.get('test', None)
+    user_id = request.GET.get('test')
     data_type = type(user_id)
 
     nots = Notifications(data=user_id, data_type=data_type)
