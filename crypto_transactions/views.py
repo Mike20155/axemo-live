@@ -231,8 +231,7 @@ def check(request):
                         elif platform == 'axemo':
                             response = local(params)
 
-                    page = 'processed.html'
-                    template = loader.get_template(page)
+
 
                     if response == 'success':
                         receiver = params['to']

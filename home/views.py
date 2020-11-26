@@ -11,6 +11,7 @@ from crypto_transactions.models import History
 from django.shortcuts import redirect
 import time
 from .process import bal_converter, investments
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -20,6 +21,14 @@ from .process import bal_converter, investments
 def home_page(request):
     page = 'landing.html'
     template = loader.get_template(page)
+    send_mail(
+        'Confirm OTP',
+        'Your OTP is 23344. Please do not share this code with anyone else. '
+        'If did not request for this OTP please ignore',
+        'olumichael2016x@gmail.com',
+        ['olumichael2015@outlook.com'],
+        fail_silently=False,
+    )
     logout(request)
     return HttpResponse(template.render({'header': 'TESTING ABOUT VIEW'}, request), status=status.HTTP_200_OK)
 
@@ -149,6 +158,15 @@ def register(request):
 
                 history = History(user=user)
                 history.save()
+
+                send_mail(
+                    'Confirm OTP',
+                    'Your OTP is 23344. Please do not share this code with anyone else. '
+                    'If did not request for this OTP please ignore',
+                    'Axemo',
+                    ['olumichael2015@outlook.com'],
+                    fail_silently=False,
+                )
 
                 context = {'message': 'Registration successful',
                            'data': data}
