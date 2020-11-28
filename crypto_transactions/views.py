@@ -1,10 +1,8 @@
 from django.http import HttpResponse
-from .models import TransferForm
 from rest_framework import status
 from django.template import loader
 from .process import coinbase, luno, local, get_address, bal_converter
 from django.contrib.auth import logout
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from home.models import UsersData
@@ -104,10 +102,52 @@ def receive(request):
             return redirect('login')
 
     except Exception as e:
-        print(e)
-        # logout(request)
-        # return redirect('login')
-        return Response(str(e))
+        page = 'pages/accounts.html'
+        template = loader.get_template(page)
+
+        logged_user = User.objects.get(username=request.user)
+
+        user = UsersData.objects.get(user=logged_user)
+
+        btc = float(user.bitcoin_balance)
+        eth = float(user.etherum_balance)
+        ltc = float(user.litecoin_balance)
+        bch = float(user.bitcoin_cash_balance)
+        ngn = bal_converter(str(user.local_currency_balance))
+
+        hist = History.objects.get(user=logged_user)
+        print('*' * 500)
+        history = []
+        symbol = None
+        currency = request.session['currency']
+        if currency == 'BITCOIN':
+            for h, i in eval(hist.btc_history).items():
+                history.append(i)
+                symbol = 'BTC'
+        elif currency == 'ETHERUM':
+            for h, i in eval(hist.eth_history).items():
+                history.append(i)
+                symbol = 'ETH'
+        elif currency == 'LITECOIN':
+            for h, i in eval(hist.ltc_history).items():
+                history.append(i)
+                symbol = 'LTC'
+        elif currency == 'BITCOINCASH':
+            for h, i in eval(hist.bch_history).items():
+                history.append(i)
+                symbol = 'BCH'
+        elif currency == 'NAIRA':
+            for h, i in eval(hist.ngn_history).items():
+                history.append(i)
+                symbol = 'NGN'
+
+        request.session['currency'] = currency
+        history.reverse()
+        context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                   'currency': currency.capitalize(), 'history': history, 'symbol': symbol,
+                   'status': 'failed', 'message': f'something went wrong. please try again later'}
+
+        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
 
 @api_view(['POST', 'GET'])
@@ -133,32 +173,280 @@ def check(request):
                             # desc = request.POST.get('desc' '')
                             print(request.POST)
 
-                            if len(to) and len(amount) > 0:
-                                print('FORM IS VALID')
+                            balance = float(user_d.local_currency_balance)
 
-                                currency = request.session['currency']
+                            if len(to) > 0:
+                                if len(amount) > 0:
+                                    if float(balance) >= float(amount):
+                                        print('FORM IS VALID')
 
-                                current_time = datetime.datetime.now()
-                                time_now = str(current_time)[:16]
+                                        currency = request.session['currency']
 
-                                context = {'to': to, 'amount': amount, 'desc': 'desc', 'currency': currency,
-                                           'platform': platform, 'user': str(request.user), 'time': time_now}
-                                request.session['data'] = context
-                                print(context)
-                                page = 'pages/confirm.html'
+                                        current_time = datetime.datetime.now()
+                                        time_now = str(current_time)[:16]
+
+                                        context = {'to': to, 'amount': amount, 'desc': 'desc', 'currency': currency,
+                                                   'platform': platform, 'user': str(request.user), 'time': time_now}
+                                        request.session['data'] = context
+                                        print(context)
+                                        page = 'pages/confirm.html'
+                                        template = loader.get_template(page)
+
+                                        return HttpResponse(template.render(context, request),
+                                                            status=status.HTTP_200_OK)
+                                    else:
+                                        page = 'pages/accounts.html'
+                                        template = loader.get_template(page)
+
+                                        logged_user = User.objects.get(username=request.user)
+
+                                        user = UsersData.objects.get(user=logged_user)
+
+                                        btc = float(user.bitcoin_balance)
+                                        eth = float(user.etherum_balance)
+                                        ltc = float(user.litecoin_balance)
+                                        bch = float(user.bitcoin_cash_balance)
+                                        ngn = bal_converter(str(user.local_currency_balance))
+
+                                        hist = History.objects.get(user=logged_user)
+                                        print('*' * 500)
+                                        history = []
+                                        symbol = None
+                                        currency = request.session['currency']
+                                        if currency == 'BITCOIN':
+                                            for h, i in eval(hist.btc_history).items():
+                                                history.append(i)
+                                                symbol = 'BTC'
+                                        elif currency == 'ETHERUM':
+                                            for h, i in eval(hist.eth_history).items():
+                                                history.append(i)
+                                                symbol = 'ETH'
+                                        elif currency == 'LITECOIN':
+                                            for h, i in eval(hist.ltc_history).items():
+                                                history.append(i)
+                                                symbol = 'LTC'
+                                        elif currency == 'BITCOINCASH':
+                                            for h, i in eval(hist.bch_history).items():
+                                                history.append(i)
+                                                symbol = 'BCH'
+                                        elif currency == 'NAIRA':
+                                            for h, i in eval(hist.ngn_history).items():
+                                                history.append(i)
+                                                symbol = 'NGN'
+
+                                        request.session['currency'] = currency
+                                        history.reverse()
+                                        context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                                                   'currency': currency.capitalize(), 'history': history,
+                                                   'symbol': symbol,
+                                                   'status': 'failed',
+                                                   'message': f'Transaction failed. insufficient balance'}
+
+                                        return HttpResponse(template.render(context, request),
+                                                            status=status.HTTP_200_OK)
+
+                                else:
+                                    page = 'pages/accounts.html'
+                                    template = loader.get_template(page)
+
+                                    logged_user = User.objects.get(username=request.user)
+
+                                    user = UsersData.objects.get(user=logged_user)
+
+                                    btc = float(user.bitcoin_balance)
+                                    eth = float(user.etherum_balance)
+                                    ltc = float(user.litecoin_balance)
+                                    bch = float(user.bitcoin_cash_balance)
+                                    ngn = bal_converter(str(user.local_currency_balance))
+
+                                    hist = History.objects.get(user=logged_user)
+                                    print('*' * 500)
+                                    history = []
+                                    symbol = None
+                                    currency = request.session['currency']
+                                    if currency == 'BITCOIN':
+                                        for h, i in eval(hist.btc_history).items():
+                                            history.append(i)
+                                            symbol = 'BTC'
+                                    elif currency == 'ETHERUM':
+                                        for h, i in eval(hist.eth_history).items():
+                                            history.append(i)
+                                            symbol = 'ETH'
+                                    elif currency == 'LITECOIN':
+                                        for h, i in eval(hist.ltc_history).items():
+                                            history.append(i)
+                                            symbol = 'LTC'
+                                    elif currency == 'BITCOINCASH':
+                                        for h, i in eval(hist.bch_history).items():
+                                            history.append(i)
+                                            symbol = 'BCH'
+                                    elif currency == 'NAIRA':
+                                        for h, i in eval(hist.ngn_history).items():
+                                            history.append(i)
+                                            symbol = 'NGN'
+
+                                    request.session['currency'] = currency
+                                    history.reverse()
+                                    context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                                               'currency': currency.capitalize(), 'history': history,
+                                               'symbol': symbol,
+                                               'status': 'failed',
+                                               'message': f'Transaction failed. Invalid amount requested'}
+
+                                    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+
+                            else:
+
+                                page = 'pages/accounts.html'
                                 template = loader.get_template(page)
 
+                                logged_user = User.objects.get(username=request.user)
+
+                                user = UsersData.objects.get(user=logged_user)
+
+                                btc = float(user.bitcoin_balance)
+                                eth = float(user.etherum_balance)
+                                ltc = float(user.litecoin_balance)
+                                bch = float(user.bitcoin_cash_balance)
+                                ngn = bal_converter(str(user.local_currency_balance))
+
+                                hist = History.objects.get(user=logged_user)
+                                print('*' * 500)
+                                history = []
+                                symbol = None
+                                currency = request.session['currency']
+                                if currency == 'BITCOIN':
+                                    for h, i in eval(hist.btc_history).items():
+                                        history.append(i)
+                                        symbol = 'BTC'
+                                elif currency == 'ETHERUM':
+                                    for h, i in eval(hist.eth_history).items():
+                                        history.append(i)
+                                        symbol = 'ETH'
+                                elif currency == 'LITECOIN':
+                                    for h, i in eval(hist.ltc_history).items():
+                                        history.append(i)
+                                        symbol = 'LTC'
+                                elif currency == 'BITCOINCASH':
+                                    for h, i in eval(hist.bch_history).items():
+                                        history.append(i)
+                                        symbol = 'BCH'
+                                elif currency == 'NAIRA':
+                                    for h, i in eval(hist.ngn_history).items():
+                                        history.append(i)
+                                        symbol = 'NGN'
+
+                                request.session['currency'] = currency
+                                history.reverse()
+                                context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                                           'currency': currency.capitalize(), 'history': history,
+                                           'symbol': symbol,
+                                           'status': 'failed',
+                                           'message': f'invalid address provided'}
+
                                 return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
-                            else:
-                                context = {'error': 'form not valid'}
-                                return Response(context, status=status.HTTP_409_CONFLICT)
 
                         except Exception as e:
-                            print(e)
+
+                            page = 'pages/accounts.html'
+                            template = loader.get_template(page)
+
+                            logged_user = User.objects.get(username=request.user)
+
+                            user = UsersData.objects.get(user=logged_user)
+
+                            btc = float(user.bitcoin_balance)
+                            eth = float(user.etherum_balance)
+                            ltc = float(user.litecoin_balance)
+                            bch = float(user.bitcoin_cash_balance)
+                            ngn = bal_converter(str(user.local_currency_balance))
+
+                            hist = History.objects.get(user=logged_user)
+                            print('*' * 500)
+                            history = []
+                            symbol = None
+                            currency = request.session['currency']
+                            if currency == 'BITCOIN':
+                                for h, i in eval(hist.btc_history).items():
+                                    history.append(i)
+                                    symbol = 'BTC'
+                            elif currency == 'ETHERUM':
+                                for h, i in eval(hist.eth_history).items():
+                                    history.append(i)
+                                    symbol = 'ETH'
+                            elif currency == 'LITECOIN':
+                                for h, i in eval(hist.ltc_history).items():
+                                    history.append(i)
+                                    symbol = 'LTC'
+                            elif currency == 'BITCOINCASH':
+                                for h, i in eval(hist.bch_history).items():
+                                    history.append(i)
+                                    symbol = 'BCH'
+                            elif currency == 'NAIRA':
+                                for h, i in eval(hist.ngn_history).items():
+                                    history.append(i)
+                                    symbol = 'NGN'
+
+                            request.session['currency'] = currency
+                            history.reverse()
+                            context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                                       'currency': currency.capitalize(), 'history': history,
+                                       'symbol': symbol,
+                                       'status': 'failed',
+                                       'message': f'something went wrong, please try again later'}
+
+                            return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+
 
                     else:
-                        context = {'form validation error': 'invalid pin provided', 'data': request.POST}
-                        return Response(context, status=status.HTTP_406_NOT_ACCEPTABLE)
+                        page = 'pages/accounts.html'
+                        template = loader.get_template(page)
+
+                        logged_user = User.objects.get(username=request.user)
+
+                        user = UsersData.objects.get(user=logged_user)
+
+                        btc = float(user.bitcoin_balance)
+                        eth = float(user.etherum_balance)
+                        ltc = float(user.litecoin_balance)
+                        bch = float(user.bitcoin_cash_balance)
+                        ngn = bal_converter(str(user.local_currency_balance))
+
+                        hist = History.objects.get(user=logged_user)
+                        print('*' * 500)
+                        history = []
+                        symbol = None
+                        currency = request.session['currency']
+                        if currency == 'BITCOIN':
+                            for h, i in eval(hist.btc_history).items():
+                                history.append(i)
+                                symbol = 'BTC'
+                        elif currency == 'ETHERUM':
+                            for h, i in eval(hist.eth_history).items():
+                                history.append(i)
+                                symbol = 'ETH'
+                        elif currency == 'LITECOIN':
+                            for h, i in eval(hist.ltc_history).items():
+                                history.append(i)
+                                symbol = 'LTC'
+                        elif currency == 'BITCOINCASH':
+                            for h, i in eval(hist.bch_history).items():
+                                history.append(i)
+                                symbol = 'BCH'
+                        elif currency == 'NAIRA':
+                            for h, i in eval(hist.ngn_history).items():
+                                history.append(i)
+                                symbol = 'NGN'
+
+                        request.session['currency'] = currency
+                        history.reverse()
+                        context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                                   'currency': currency.capitalize(), 'history': history,
+                                   'symbol': symbol,
+                                   'status': 'failed',
+                                   'message': f'invalid pin provided'}
+
+                        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
                 else:
                     logout(request)
@@ -176,7 +464,7 @@ def check(request):
 
             user = params['user']
             amount = params['amount']
-            platform = params['platform']
+            platform = 'blockchain'
 
             if User.objects.get(username=user):
                 user = User.objects.get(username=user)
@@ -231,36 +519,301 @@ def check(request):
                         elif platform == 'axemo':
                             response = local(params)
 
-
-
                     if response == 'success':
                         receiver = params['to']
-                        context = {'status': 'success', 'detail': f'user: {user} sent {amount}Btc to  {receiver}.'}
-                        return Response(context, status=status.HTTP_200_OK)
-                        # return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+                        currency = params['currency']
+
+                        page = 'pages/accounts.html'
+                        template = loader.get_template(page)
+
+                        logged_user = User.objects.get(username=request.user)
+
+                        user = UsersData.objects.get(user=logged_user)
+
+                        btc = float(user.bitcoin_balance)
+                        eth = float(user.etherum_balance)
+                        ltc = float(user.litecoin_balance)
+                        bch = float(user.bitcoin_cash_balance)
+                        ngn = bal_converter(str(user.local_currency_balance))
+
+                        hist = History.objects.get(user=logged_user)
+                        print('*' * 500)
+                        history = []
+                        symbol = None
+                        currency = request.session['currency']
+                        if currency == 'BITCOIN':
+                            for h, i in eval(hist.btc_history).items():
+                                history.append(i)
+                                symbol = 'BTC'
+                        elif currency == 'ETHERUM':
+                            for h, i in eval(hist.eth_history).items():
+                                history.append(i)
+                                symbol = 'ETH'
+                        elif currency == 'LITECOIN':
+                            for h, i in eval(hist.ltc_history).items():
+                                history.append(i)
+                                symbol = 'LTC'
+                        elif currency == 'BITCOINCASH':
+                            for h, i in eval(hist.bch_history).items():
+                                history.append(i)
+                                symbol = 'BCH'
+                        elif currency == 'NAIRA':
+                            for h, i in eval(hist.ngn_history).items():
+                                history.append(i)
+                                symbol = 'NGN'
+
+                        request.session['currency'] = currency
+                        history.reverse()
+                        context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                                   'currency': currency.capitalize(), 'history': history,
+                                   'symbol': symbol,
+                                   'status': 'success',
+                                   'message': f'sent {currency}{amount} to  {receiver} successfully'}
+
+                        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
                     else:
-                        return Response(response, status=status.HTTP_409_CONFLICT)
+                        page = 'pages/accounts.html'
+                        template = loader.get_template(page)
+
+                        logged_user = User.objects.get(username=request.user)
+
+                        user = UsersData.objects.get(user=logged_user)
+
+                        btc = float(user.bitcoin_balance)
+                        eth = float(user.etherum_balance)
+                        ltc = float(user.litecoin_balance)
+                        bch = float(user.bitcoin_cash_balance)
+                        ngn = bal_converter(str(user.local_currency_balance))
+
+                        hist = History.objects.get(user=logged_user)
+                        print('*' * 500)
+                        history = []
+                        symbol = None
+                        currency = request.session['currency']
+                        if currency == 'BITCOIN':
+                            for h, i in eval(hist.btc_history).items():
+                                history.append(i)
+                                symbol = 'BTC'
+                        elif currency == 'ETHERUM':
+                            for h, i in eval(hist.eth_history).items():
+                                history.append(i)
+                                symbol = 'ETH'
+                        elif currency == 'LITECOIN':
+                            for h, i in eval(hist.ltc_history).items():
+                                history.append(i)
+                                symbol = 'LTC'
+                        elif currency == 'BITCOINCASH':
+                            for h, i in eval(hist.bch_history).items():
+                                history.append(i)
+                                symbol = 'BCH'
+                        elif currency == 'NAIRA':
+                            for h, i in eval(hist.ngn_history).items():
+                                history.append(i)
+                                symbol = 'NGN'
+
+                        request.session['currency'] = currency
+                        history.reverse()
+                        context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                                   'currency': currency.capitalize(), 'history': history,
+                                   'symbol': symbol,
+                                   'status': 'failed', 'message': f'something went wrong. please try again later'}
+
+                        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
                 else:
-                    context = {'message': 'insufficient balance', 'user': str(user.user),
-                               'user_balance': f'{balance}BTC', 'requested amount': f'{amount}BTC'}
-                    return Response(context, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+                    page = 'pages/accounts.html'
+                    template = loader.get_template(page)
+
+                    logged_user = User.objects.get(username=request.user)
+
+                    user = UsersData.objects.get(user=logged_user)
+
+                    btc = float(user.bitcoin_balance)
+                    eth = float(user.etherum_balance)
+                    ltc = float(user.litecoin_balance)
+                    bch = float(user.bitcoin_cash_balance)
+                    ngn = bal_converter(str(user.local_currency_balance))
+
+                    hist = History.objects.get(user=logged_user)
+                    print('*' * 500)
+                    history = []
+                    symbol = None
+                    currency = request.session['currency']
+                    if currency == 'BITCOIN':
+                        for h, i in eval(hist.btc_history).items():
+                            history.append(i)
+                            symbol = 'BTC'
+                    elif currency == 'ETHERUM':
+                        for h, i in eval(hist.eth_history).items():
+                            history.append(i)
+                            symbol = 'ETH'
+                    elif currency == 'LITECOIN':
+                        for h, i in eval(hist.ltc_history).items():
+                            history.append(i)
+                            symbol = 'LTC'
+                    elif currency == 'BITCOINCASH':
+                        for h, i in eval(hist.bch_history).items():
+                            history.append(i)
+                            symbol = 'BCH'
+                    elif currency == 'NAIRA':
+                        for h, i in eval(hist.ngn_history).items():
+                            history.append(i)
+                            symbol = 'NGN'
+
+                    request.session['currency'] = currency
+                    history.reverse()
+                    context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                               'currency': currency.capitalize(), 'history': history, 'symbol': symbol,
+                               'status': 'failed', 'message': f'insufficient balance'}
+
+                    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
             else:
-                context = {'message': f'user: {user} does not exist'}
-                return Response(context, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+                page = 'pages/accounts.html'
+                template = loader.get_template(page)
+
+                logged_user = User.objects.get(username=request.user)
+
+                user = UsersData.objects.get(user=logged_user)
+
+                btc = float(user.bitcoin_balance)
+                eth = float(user.etherum_balance)
+                ltc = float(user.litecoin_balance)
+                bch = float(user.bitcoin_cash_balance)
+                ngn = bal_converter(str(user.local_currency_balance))
+
+                hist = History.objects.get(user=logged_user)
+                print('*' * 500)
+                history = []
+                symbol = None
+                currency = request.session['currency']
+                if currency == 'BITCOIN':
+                    for h, i in eval(hist.btc_history).items():
+                        history.append(i)
+                        symbol = 'BTC'
+                elif currency == 'ETHERUM':
+                    for h, i in eval(hist.eth_history).items():
+                        history.append(i)
+                        symbol = 'ETH'
+                elif currency == 'LITECOIN':
+                    for h, i in eval(hist.ltc_history).items():
+                        history.append(i)
+                        symbol = 'LTC'
+                elif currency == 'BITCOINCASH':
+                    for h, i in eval(hist.bch_history).items():
+                        history.append(i)
+                        symbol = 'BCH'
+                elif currency == 'NAIRA':
+                    for h, i in eval(hist.ngn_history).items():
+                        history.append(i)
+                        symbol = 'NGN'
+
+                request.session['currency'] = currency
+                history.reverse()
+                context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                           'currency': currency.capitalize(), 'history': history, 'symbol': symbol,
+                           'status': 'failed',
+                           'message': 'something went wrong. please cross-check your entries and try again'}
+
+                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         else:
-            page = 'request.html'
+            page = 'pages/accounts.html'
             template = loader.get_template(page)
-            return Response('something went wrong', status=status.HTTP_400_BAD_REQUEST)
 
-            # return HttpResponse(template.render({'message': 'invalid request'}, request),
-            # status=status.HTTP_406_NOT_ACCEPTABLE)
+            logged_user = User.objects.get(username=request.user)
+
+            user = UsersData.objects.get(user=logged_user)
+
+            btc = float(user.bitcoin_balance)
+            eth = float(user.etherum_balance)
+            ltc = float(user.litecoin_balance)
+            bch = float(user.bitcoin_cash_balance)
+            ngn = bal_converter(str(user.local_currency_balance))
+
+            hist = History.objects.get(user=logged_user)
+            print('*' * 500)
+            history = []
+            symbol = None
+            currency = request.session['currency']
+            if currency == 'BITCOIN':
+                for h, i in eval(hist.btc_history).items():
+                    history.append(i)
+                    symbol = 'BTC'
+            elif currency == 'ETHERUM':
+                for h, i in eval(hist.eth_history).items():
+                    history.append(i)
+                    symbol = 'ETH'
+            elif currency == 'LITECOIN':
+                for h, i in eval(hist.ltc_history).items():
+                    history.append(i)
+                    symbol = 'LTC'
+            elif currency == 'BITCOINCASH':
+                for h, i in eval(hist.bch_history).items():
+                    history.append(i)
+                    symbol = 'BCH'
+            elif currency == 'NAIRA':
+                for h, i in eval(hist.ngn_history).items():
+                    history.append(i)
+                    symbol = 'NGN'
+
+            request.session['currency'] = currency
+            history.reverse()
+            context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                       'currency': currency.capitalize(), 'history': history, 'symbol': symbol,
+                       'status': 'failed',
+                       'message': 'something went wrong. please cross-check your entries and try again'}
+
+            return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
     except Exception as e:
-        error = {'error': str(e)}
-        return Response(error, status=status.HTTP_400_BAD_REQUEST)
+        page = 'pages/accounts.html'
+        template = loader.get_template(page)
 
+        logged_user = User.objects.get(username=request.user)
 
+        user = UsersData.objects.get(user=logged_user)
+
+        btc = float(user.bitcoin_balance)
+        eth = float(user.etherum_balance)
+        ltc = float(user.litecoin_balance)
+        bch = float(user.bitcoin_cash_balance)
+        ngn = bal_converter(str(user.local_currency_balance))
+
+        hist = History.objects.get(user=logged_user)
+        print('*' * 500)
+        history = []
+        symbol = None
+        currency = request.session['currency']
+        if currency == 'BITCOIN':
+            for h, i in eval(hist.btc_history).items():
+                history.append(i)
+                symbol = 'BTC'
+        elif currency == 'ETHERUM':
+            for h, i in eval(hist.eth_history).items():
+                history.append(i)
+                symbol = 'ETH'
+        elif currency == 'LITECOIN':
+            for h, i in eval(hist.ltc_history).items():
+                history.append(i)
+                symbol = 'LTC'
+        elif currency == 'BITCOINCASH':
+            for h, i in eval(hist.bch_history).items():
+                history.append(i)
+                symbol = 'BCH'
+        elif currency == 'NAIRA':
+            for h, i in eval(hist.ngn_history).items():
+                history.append(i)
+                symbol = 'NGN'
+
+        request.session['currency'] = currency
+        history.reverse()
+        context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
+                   'currency': currency.capitalize(), 'history': history, 'symbol': symbol,
+                   'status': 'failed',
+                   'message': 'something went wrong. please try again later'}
+
+        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)

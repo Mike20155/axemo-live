@@ -42,13 +42,14 @@
                   {% endif %}</h3>
                     </div>
             </div>
+
             <div class="card-body">
               <div class="row icon-examples">
                 <div class="container">
                   <div class="row justify-content-center">
 
                       <button type="button" class="btn btn-primary btn-icon btn btn-success" data-toggle="modal"
-                              data-target="#modal-platforms" style="float: left; min-width: 130px">
+                              data-target="#modal-address" style="float: left; min-width: 130px">
                         <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
                         <span class="btn-inner--text">Send</span>
                       </button>
@@ -125,7 +126,7 @@
               <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                 <div class="modal-content bg-gradient-success">
                   <div class="modal-header">
-                   <h6 class="modal-title" id="modal-title-address">Who would you like to send to?</h6>
+                   <h6 class="modal-title" id="modal-title-address">Please enter the destination bitcoin address below.</h6>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                    </button>
@@ -145,10 +146,6 @@
                     </div>
                   </div>
 
-                    <button type="button" class="btn btn-primary btn-icon btn btn-success">
-                      <span class="btn-inner--icon"><i class="ni ni-camera-compact"></i></span>
-                      <span class="btn-inner--text">QR code</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -157,8 +154,6 @@
                   <div class="modal-footer">
                     <div class="row">
                       <div class="col-sm" >
-                        <button type="button" class="btn btn-primary btn-warning" data-toggle="modal"
-                                data-dismiss="modal" data-target="#modal-platforms">Previous</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
                                 data-target="#modal-amount">Proceed</button>
                       </div>
@@ -277,7 +272,24 @@
 
 
 
+     {% if status == 'success' %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom: -5px">
+                  <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                  <span class="alert-text"><strong>Success!</strong> {{message}}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              {% elif status == 'failed' %}
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <span class="alert-icon"></span>
+                  <span class="alert-text"><strong>Error:</strong> {{message}}!</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
 
+              {% endif %}
 
 
     <div class="container-fluid mt--15">

@@ -2,6 +2,11 @@ from investments.models import Investments
 from django.utils import timezone
 from .models import UsersData
 from django.contrib.auth.models import User
+from coinbase.wallet.client import Client
+
+key = "qllinMZsWKJxMbm1"
+secret = "O8166FUvpXgZk5XowalRE8cP0tVXRWkT"
+client = Client(key, secret)
 
 
 def investments(user):
@@ -14,9 +19,12 @@ def investments(user):
             start = i.date_created
             percentage = i.percentage
             crypto_capital = i.capital
+
             print('pass')
 
             now = timezone.now()
+
+            diff = now - start
 
             total = str(now - start)[:2]
             tot = str(now - start)
@@ -56,6 +64,7 @@ def investments(user):
                     i.total_paid = tp
                     print('pass3')
                     i.percentage = 35
+
                 else:
                     pass
             elif weeks == 2:
@@ -111,15 +120,30 @@ def investments(user):
 
             start = i.date_created
             percentage = i.percentage
-            fiat_capital = i.capital
             crypto_capital = i.capital
             week = i.week
-            total_paid = i.total_paid
+            total_paid_crypto = i.total_paid
             currency = i.currency
             id = i.tx_hash
 
-            data = {'start': start, 'percentage': percentage, 'fiat': str(fiat_capital), 'crypto': crypto_capital, 'week': week,
-                    'total_paid': total_paid, 'currency': currency, 'id': id}
+            ex_rate = client.get_exchange_rates(currency=currency)
+            ex_rate = float(ex_rate['rates']['USD'])
+            fiat_capital = ex_rate * float(crypto_capital)
+
+            fiat_capital = str("{:.1f}".format(fiat_capital))
+            fiat_capital = bal_converter(str(fiat_capital))
+
+            total_paid_fiat = ex_rate * float(total_paid_crypto)
+
+            total_paid_fiat = str("{:.1f}".format(total_paid_fiat))
+            total_paid_fiat = bal_converter(str(total_paid_fiat))
+
+            crypto_capital = str("{:.8f}".format(crypto_capital))
+
+            total_paid_crypto = str("{:.8f}".format(total_paid_crypto))
+
+            data = {'start': start, 'percentage': percentage, 'fiat': fiat_capital, 'crypto': crypto_capital, 'week': week,
+                    'total_paid_crypto': total_paid_crypto, 'total_paid_fiat': total_paid_fiat, 'currency': currency, 'id': id}
 
             return data
 
@@ -127,7 +151,29 @@ def investments(user):
         return None
 
 
+def fiat_calculator(btc, eth, ltc, bch):
+    btc_rate = client.get_exchange_rates(currency='BTC')
+    eth_rate = client.get_exchange_rates(currency='ETH')
+    ltc_rate = client.get_exchange_rates(currency='LTC')
+    bch_rate = client.get_exchange_rates(currency='BCH')
+
+    btc_rate = float(btc_rate['rates']['USD'])
+    eth_rate = float(eth_rate['rates']['USD'])
+    ltc_rate = float(ltc_rate['rates']['USD'])
+    bch_rate = float(bch_rate['rates']['USD'])
+
+    btc_usd = btc_rate * btc
+    eth_usd = eth_rate * eth
+    ltc_usd = ltc_rate * ltc
+    bch_usd = bch_rate * bch
+
+    total_usd = btc_usd + eth_usd + ltc_usd + bch_usd
+
+    return total_usd
+
+
 def bal_converter(x):
+
     print(len(x))
     if len(x) == 6:
         a = x[0]

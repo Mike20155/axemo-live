@@ -17,8 +17,8 @@
   <!-- Navbar -->
   <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container" style="background-color: #0027e3">
-      <a class="navbar-brand" href="dashboard.html">
-        <img src="../assets/img/brand/white.png">
+        <a class="navbar-brand" href="{% url 'home_page' %}">
+        <img src="{% static 'assets/img/brand/white.png' %}">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -27,8 +27,8 @@
         <div class="navbar-collapse-header">
           <div class="row">
             <div class="col-6 collapse-brand">
-              <a href="dashboard.html">
-                <img src="../assets/img/brand/blue.png">
+                 <a href="{% url 'home_page' %}">
+                <img src="{% static 'assets/img/brand/blue.png' %}">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -84,8 +84,8 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-              <h1 class="text-white">Create an account</h1>
-              <p class="text-lead text-white">Create a free account with us</p>
+              <h1 class="text-white">Create your account</h1>
+
             </div>
           </div>
         </div>
@@ -105,66 +105,74 @@
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
                 <div class="column">
-                <small>Or sign up with credentials</small>
-                <small>Or sign up with credentials</small>
-                  </div>
+                  <small>Fields marked with "</small><small style="color: red;">*</small><small>" are required</small>
+                </div>
+                <div class="column">
+                  <small style="color: red;">{{message}}</small>
+                </div>
               </div>
               <form role="form" action="{% url 'register' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
+
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      <label style="color: red;">*</label>
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                     </div>
-                    <input class="form-control" type="text" name="username" id="firstname" placeholder="first name" required/>
+                    <input class="form-control" type="text" name="username" id="username" value="{{ username }}" placeholder="first name" required/>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-user"></i></span>
+                      <label style="color: red;">*</label>
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                     </div>
-                    <input class="form-control" type="email" name="email" id="lastname" placeholder="last name" required/>
+                    <input class="form-control" type="text" name="lastname" id="lastname" value="{{ last_name }}" placeholder="last name" required/>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
+                      <label style="color: red;">*</label>
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" type="password" name="password" id="password" placeholder="E-mail" required/>
+                    <input class="form-control" type="email" name="email" id="email" value="{{ email }}" placeholder="E-mail" required/>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <div class="input-group-prepend">
+                      <label style="color: red;">*</label>
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" type="password" name="password1" id="password1" placeholder="Password" required/>
+                    <input class="form-control" type="password" name="password" id="password" value="{{ password_1 }}" placeholder="Password" required/>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <div class="input-group-prepend">
+                      <label style="color: red;">*</label>
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" type="password" name="password2" id="password2" placeholder="Confirm password" required/>
+                    <input class="form-control" type="password" name="password2" id="password2" value="{{ password_2 }}" placeholder="Confirm password" required/>
                   </div>
                 </div>
-                                <div class="form-group">
+                <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" type="email" name="email" id="email" placeholder="Referral's email" required/>
+                    <input class="form-control"  name="ref" id="ref" value="{{ ref }}" placeholder="Referral's email"/>
                   </div>
                 </div>
                 <div class="row my-4">
                   <div class="col-12">
                     <div class="custom-control custom-control-alternative custom-checkbox">
-                      <input class="custom-control-input" id="customCheckRegister" type="checkbox">
+                      <input class="custom-control-input" id="customCheckRegister" type="checkbox" required>
                       <label class="custom-control-label" for="customCheckRegister">
-                        <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
+                        <span class="text-muted">I agree with the  <a href="{% url 'terms' %}">Terms and conditions</a></span>
                       </label>
                     </div>
                   </div>

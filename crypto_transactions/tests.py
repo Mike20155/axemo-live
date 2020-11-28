@@ -1,5 +1,11 @@
-import requests
+from coinbase.wallet.client import Client
 
-payload = {'test': {'id': 'heheihridicinh', 'amount': '0.0037'}}
-r = requests.post('https://hidden-hollows-00126.herokuapp.com/webhooks/coinbase-webhook/', params=payload)
-print(r)
+
+key = "qllinMZsWKJxMbm1"
+secret = "O8166FUvpXgZk5XowalRE8cP0tVXRWkT"
+
+
+client = Client(key, secret)
+
+rates = client.get_exchange_rates(currency='BTC')
+print(rates['rates']['USD'])

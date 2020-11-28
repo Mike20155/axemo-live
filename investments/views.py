@@ -1,9 +1,19 @@
+from django.http import HttpResponse
+from rest_framework import status
 from django.contrib.auth import logout
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from home.models import UsersData
 from django.shortcuts import redirect
 from .process import invest
+import time
+from django.template import loader
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from crypto_transactions.models import History
+from django.shortcuts import redirect
 import time
 
 
@@ -46,19 +56,36 @@ def confirm_investment(request):
 
                 if balance >= float(amount):
 
-                    param={'user': logged_user, 'currency': currency, 'amount': amount}
+                    param = {'user': logged_user, 'currency': currency, 'amount': amount}
 
                     invest(param)
 
-                    print('pass')
-                else:
-                    pass
+                    page = 'pages/dashboard.html'
+                    template = loader.get_template(page)
 
-            return redirect('dash')
+                    context = {'status': 'success',
+                               'message': f'Congratulations! you have successfully invested {currency}{balance}'}
+                    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+
+                else:
+                    page = 'pages/dashboard.html'
+                    template = loader.get_template(page)
+
+                    context = {'status': 'failed', 'message': f'insufficient funds in currency requested.'
+                                                              f'you have only {currency}{balance} available in your '
+                                                              f'{currency} wallet'}
+                    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         else:
             logout(request)
-            return redirect('dash')
+            page = 'pages/login.html'
+            template = loader.get_template(page)
+            context = {'timeout': f'session timeout! please log in again to continue'}
+            return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
-    except IndexError:
-        return redirect('dash')
+    except Exception as e:
+        logout(request)
+        page = 'pages/login.html'
+        template = loader.get_template(page)
+        context = {'message': f'something went wrong while trying to process your request, please try again later.'}
+        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)

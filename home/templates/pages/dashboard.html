@@ -18,7 +18,7 @@
                     <span>
                         <h3 class="text-muted  mt-10" style="margin-bottom: -10px; font-weight: 400;">Balance</h3>
                         <h1 class="display-1 mt-1" style="color: white; font-weight: 500;
-                        background-color: #0027e3;">NGN {{ integer }}0</h1>
+                        background-color: #0027e3;">${{ integer }}0</h1>
                     </span>
                         </center>
                 </div>
@@ -153,6 +153,24 @@
     </div>
 
  <!-- Active Investments -->
+                            {% if status == 'success' %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom: -5px">
+                  <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                  <span class="alert-text"><strong>Success!</strong> {{message}}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              {% elif status == 'failed' %}
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <span class="alert-icon"></span>
+                  <span class="alert-text"><strong>Failed!</strong> {{message}}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+
+              {% endif %}
     <div class="container-fluid mt--6">
       <div class="row justify-content-md-center">
         <div class=" col ">
@@ -193,13 +211,15 @@
         </div>
       </div>
     </div>
-<div class="row justify-content-center">
-                          <button type="button" class="btn  btn-icon btn-success"  data-toggle="modal"
+        <div class="row justify-content-center">
+            {% if invested == None %}
+            <button type="button" class="btn  btn-icon btn-success"  data-toggle="modal"
                               data-target="#modal-invest" style="float: right; min-width: 130px;">
                         <span class="btn-inner--icon"><i class="ni ni-money-coins"></i></span>
                         <span class="btn-inner--text">invest +</span>
                       </button>
-</div>
+            {% endif %}
+        </div>
 
 
 
@@ -304,7 +324,11 @@
                             <center>
                                 <span>
                                     <h3 class="text-muted" style="font-weight: 400;">Total earned</h3>
-                                    <h1 class="display-1 mt--3" style="font-weight: 600;">${{invested.total_paid}}</h1>
+
+                                    <h1 class="display-1 mt--3" style="font-weight: 600;">${{invested.total_paid_fiat}}</h1>
+
+                                    <h1 class="display-6 mt--3" style="font-weight: 600;">
+                                        ( {{invested.currency}} {{invested.total_paid_crypto}} ) </h1>
                                 </span>
                             </center>
                         </div>
@@ -312,16 +336,18 @@
                     <div class="col">
                     <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
                         <i class="bg-info"></i>ID: <label style="color: black; font-weight: 700;">{{invested.id}}</label></span>
+                               <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
+                            <i class="bg-info"></i>Investment currency: <label style="color: black; font-weight: 700;">{{invested.currency}}</label></span>
+                        <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px; ">
+                        <i class="bg-info"></i>Capital: <label style="color: black; font-weight: 700; margin-right: 1000px;">${{invested.fiat}} ( {{ invested.currency }}{{ invested.crypto }} )</label></span>
                         <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
                             <i class="bg-info"></i>Percentage earned: <label style="color: black; font-weight: 700;">{{invested.percentage}}%</label></span>
-                    <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px; ">
-                        <i class="bg-info"></i>Capital: <label style="color: black; font-weight: 700; margin-right: 1000px;">${{invested.fiat}}</label></span>
-                        <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
-                            <i class="bg-info"></i>Currency: <label style="color: black; font-weight: 700;">{{invested.currency}}</label></span>
-                           <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
-                               <i class="bg-info"></i>{{invested.currency}} equivalent: <label style="color: black; font-weight: 700;">{{invested.currency}} 0.009382</label></span>
+
                          <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
                              <i class="bg-info"></i>Date created: <label style="color: black; font-weight: 700;">{{invested.start}}</label></span>
+
+                        <span class="badge badge-lg  badge-dot mr-4" style="margin-top: -4px;">
+                               <i class="bg-info"></i>Next payment date: <label style="color: black; font-weight: 700;">{{invested.start}}</label></span>
                     </div>
                 </div>
               </div>
@@ -336,20 +362,23 @@
                 </div>
               </div>
               </div>
-
-
-
-
-
+    </div>
 
 
  <!-- Page content -->
-
-
-              <div class="card-body" style="background-color: #ffffff;">
-              <div class="row icon-examples">
-                <div class="container">
-                  <div class="row justify-content-center" >
+        <div class="container-fluid mt--15">
+            <div class="row justify-content-md-center">
+                <div class=" col ">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row justify-content-center">
+                                <h3 class="mb-200">Market updates</h3>
+                            </div>
+                        </div>
+                        <div class="card-body" style="background-color: #ffffff;">
+                            <div class="row icon-examples">
+                                <div class="container">
+                                    <div class="row justify-content-center" >
                       <div style="min-width: 100%; margin-top: -26px">
                           <div style="height:200px; padding:0px; margin:0px; width: 100%;">
                               <iframe src="https://widget.coinlib.io/widget?type=single_v2&theme=light&coin_id=859&pref_coin_id=1523"
@@ -412,8 +441,7 @@ embedder.parentNode.appendChild(s);
 
 
 
-
-        <script>function topFunction() {
+                        <script>function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }</script>
@@ -422,19 +450,9 @@ embedder.parentNode.appendChild(s);
        <footer class="footer pt-0" style="margin-top: 20px; background-color: #0027e3  ">
         <div class="row align-items-center justify-content-lg-between">
           <div class="col-lg-6">
-            <div class="copyright text-center  text-lg-left  text-muted">
-              &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Axemo</a>
+            <div class="copyright text-center  text-lg-left  text-muted" style="margin-top: 40px;">
+              &copy; 2020 <a href="" class="font-weight-bold ml-1" target="_blank">Axemo</a>
             </div>
-          </div>
-          <div class="col-lg-6">
-            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com" class="nav-link" style="color: white" target="_blank">axemo</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/presentation" class="nav-link"  style="color: white" target="_blank">About us</a>
-              </li>
-            </ul>
           </div>
         </div>
       </footer>

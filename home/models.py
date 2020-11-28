@@ -14,6 +14,8 @@ def encrypt():
 
 class UsersData(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    first_name = models.CharField(max_length=200, default='john')
+    last_name = models.CharField(max_length=200, default='doe')
     date_created = models.DateTimeField(default=timezone.now)
     bitcoin_balance = models.FloatField(default=0.00000000)
     etherum_balance = models.FloatField(default=0.00000000)

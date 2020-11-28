@@ -17,7 +17,7 @@
   <!-- Navbar -->
   <nav id="navbar-main"  style="background-color: #0027e3" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container" style="background-color: #0027e3">
-      <a class="navbar-brand" href="dashboard.html">
+      <a class="navbar-brand" href="{% url 'home_page' %}">
         <img src="{% static 'assets/img/brand/white.png' %}">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
         <div class="navbar-collapse-header">
           <div class="row">
             <div class="col-6 collapse-brand">
-              <a href="dashboard.html">
+              <a href="{% url 'home_page' %}">
                 <img src="{% static 'assets/img/brand/blue.png' %}">
               </a>
             </div>
@@ -85,7 +85,7 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-              <h1 class="text-white">Welcome Back!</h1>
+              <h1 class="text-white">Sign in to Axemo</h1>
             </div>
           </div>
         </div>
@@ -99,7 +99,8 @@
           <div class="card bg-secondary border-0 mb-0">
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                <small>{{ message }}</small>
+                 <small style="color: red;">{{message}}</small>
+                <small style="color: blue;">{{timeout}}</small>
               </div>
               <form role="form"  action="" method="post">
                 {% csrf_token %}
