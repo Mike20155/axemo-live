@@ -78,7 +78,9 @@ def coinbase(param):
         # tx = ['completed']
         print('sending to coinbase....')
         client = Client(key, secret)
-        tx = client.send_money(btc_id, to=param['to'], amount=float(param['amount']), currency=param['currency'], desc=param['desc'])
+        print('validating client....')
+        tx = client.send_money(btc_id, to=param['to'], amount=float(param['amount']), currency=param['currency'],
+                               desc=param['desc'])
         print(tx)
         if tx['status'] == 'completed':
             param['status'] = 'success'

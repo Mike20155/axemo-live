@@ -6,11 +6,13 @@ from django.contrib.auth import logout
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from home.models import UsersData
+from .models import Address
 from django.shortcuts import redirect
 from crypto_transactions.models import History
 import time
 import hashlib
 import datetime
+from home.process import fiat_calculator, bal_converter
 
 # Create your views here.
 
@@ -40,31 +42,52 @@ def crypto(request, currency):
             print('*'*500)
             history = []
             symbol = None
+            balance = 0.00
             if currency == 'BITCOIN':
+                balance = fiat_calculator(btc, 0, 0, 0)
                 for h, i in eval(hist.btc_history).items():
                     history.append(i)
                     symbol = 'BTC'
+
             elif currency == 'ETHERUM':
+                balance = fiat_calculator(0, eth, 0, 0)
                 for h, i in eval(hist.eth_history).items():
                     history.append(i)
                     symbol = 'ETH'
+
             elif currency == 'LITECOIN':
+                balance = fiat_calculator(0, 0, ltc, 0)
                 for h, i in eval(hist.ltc_history).items():
                     history.append(i)
                     symbol = 'LTC'
+
             elif currency == 'BITCOINCASH':
+                balance = fiat_calculator(0, 0, 0, bch)
                 for h, i in eval(hist.bch_history).items():
                     history.append(i)
                     symbol = 'BCH'
+
             elif currency == 'NAIRA':
                 for h, i in eval(hist.ngn_history).items():
                     history.append(i)
                     symbol = 'NGN'
 
+            balance = str("{:.1f}".format(balance))
+            btc = str("{:.8f}".format(btc))
+            eth = str("{:.8f}".format(eth))
+            ltc = str("{:.8f}".format(ltc))
+            bch = str("{:.8f}".format(bch))
+
+            balance = bal_converter(balance)
+
             request.session['currency'] = currency
             history.reverse()
-            context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn,
-                       'currency': currency.capitalize(), 'history': history, 'symbol': symbol}
+            trans = True
+            if len(history) == 0:
+                trans = False
+            print('pass')
+            context = {'btc': btc, 'eth': eth, 'ltc': ltc, 'bch': bch, 'local': ngn, 'fiat': balance,
+                       'currency': currency.capitalize(), 'history': history, 'trans': trans, 'symbol': symbol}
             return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         else:
@@ -93,7 +116,7 @@ def receive(request):
             address = get_address(request.user, currency)
             qr = f"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={address}"
 
-            context = {'address': address, 'source': qr, 'currency': currency.capitalize()}
+            context = {'address': address, 'source': qr, 'currency': currency.capitalize(), 'c': currency}
 
             return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
@@ -162,9 +185,9 @@ def check(request):
                     pin = str(request.POST.get('pin' ''))
 
                     user = User.objects.get(username=request.user)
-                    user_d = UsersData.objects.get(user=user)
+                    user = UsersData.objects.get(user=user)
 
-                    if hashlib.sha256(pin.encode()).hexdigest() == str(user_d.pin):
+                    if hashlib.sha256(pin.encode()).hexdigest() == str(user.pin):
 
                         try:
                             platform = request.POST.get('platform' '')
@@ -173,11 +196,29 @@ def check(request):
                             # desc = request.POST.get('desc' '')
                             print(request.POST)
 
-                            balance = float(user_d.local_currency_balance)
+                            btc = float(user.bitcoin_balance)
+                            eth = float(user.etherum_balance)
+                            ltc = float(user.litecoin_balance)
+                            bch = float(user.bitcoin_cash_balance)
+
+                            balance = 0.00
+
+                            if request.session['currency'] == 'BITCOIN':
+                                balance = btc
+                            elif request.session['currency'] == 'ETHERUM':
+                                balance = eth
+                            elif request.session['currency'] == 'LITECOIN':
+                                balance = ltc
+                            elif request.session['currency'] == 'BITCOINCASH':
+                                balance = bch
+
+                            print(float(balance))
+                            print(float(amount))
 
                             if len(to) > 0:
                                 if len(amount) > 0:
                                     if float(balance) >= float(amount):
+
                                         print('FORM IS VALID')
 
                                         currency = request.session['currency']
@@ -493,6 +534,18 @@ def check(request):
 
                 if balance >= float(amount):
                     response = 'request not resolved'
+
+                    addresses = Address.objects.filter(address=params['to'])
+                    print(addresses)
+
+                    if len(addresses) > 0:
+                        user = addresses[0].user
+                        user = User.objects.get(username=user)
+                        user = UsersData.objects.get(user=user)
+                        params['to'] = str(user.email)
+                        platform = 'axemo'
+
+
 
                     print(currency * 10)
                     if currency == 'BITCOIN':

@@ -128,9 +128,9 @@ def investments(user):
 
             ex_rate = client.get_exchange_rates(currency=currency)
             ex_rate = float(ex_rate['rates']['USD'])
-            fiat_capital = ex_rate * float(crypto_capital)
+            fiat_cap = ex_rate * float(crypto_capital)
 
-            fiat_capital = str("{:.1f}".format(fiat_capital))
+            fiat_capital = str("{:.1f}".format(fiat_cap))
             fiat_capital = bal_converter(str(fiat_capital))
 
             total_paid_fiat = ex_rate * float(total_paid_crypto)
@@ -142,8 +142,10 @@ def investments(user):
 
             total_paid_crypto = str("{:.8f}".format(total_paid_crypto))
 
+            total_payment = (140/100)*fiat_cap
+
             data = {'start': start, 'percentage': percentage, 'fiat': fiat_capital, 'crypto': crypto_capital, 'week': week,
-                    'total_paid_crypto': total_paid_crypto, 'total_paid_fiat': total_paid_fiat, 'currency': currency, 'id': id}
+                    'total_paid_crypto': total_paid_crypto, 'total_paid_fiat': total_paid_fiat, 'total_payment': total_payment,'currency': currency, 'id': id}
 
             return data
 
@@ -152,6 +154,7 @@ def investments(user):
 
 
 def fiat_calculator(btc, eth, ltc, bch):
+    print(btc)
     btc_rate = client.get_exchange_rates(currency='BTC')
     eth_rate = client.get_exchange_rates(currency='ETH')
     ltc_rate = client.get_exchange_rates(currency='LTC')
@@ -167,7 +170,11 @@ def fiat_calculator(btc, eth, ltc, bch):
     ltc_usd = ltc_rate * ltc
     bch_usd = bch_rate * bch
 
+    print(btc_usd)
+
     total_usd = btc_usd + eth_usd + ltc_usd + bch_usd
+
+    print(total_usd)
 
     return total_usd
 

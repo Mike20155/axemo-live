@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.home_page, name='home_page'),
     path('terms&conditions', views.terms, name='terms'),
+    path('test', views.test, name='test'),
     path('register', views.register, name='register'),
     path('otp', views.otp_validator, name='otp'),
     path('login', views.login_user, name='login'),

@@ -54,8 +54,18 @@ def save(param):
     time_now = str(current_time)[:16]
     notify = {'to': 'Forex', 'amount': str(param['amount']), 'desc': 'desc', 'time': time_now, 'currency': cur, 'platform': 'axemo', 'user': str(username), 'route': 'local', 'type': 'Debit', 'status': 'success', 'resolved': True}
 
-    letters = string.ascii_lowercase
-    identity = ''.join(random.choice(letters) for _ in range(30))
+    lower_upper_alphabet = string.ascii_letters
+
+    b = random.choice(lower_upper_alphabet).lower()
+    e = random.choice(lower_upper_alphabet).lower()
+    g = random.choice(lower_upper_alphabet).lower()
+    i = random.choice(lower_upper_alphabet).lower()
+    a = random.randint(10, 99)
+    c = random.randint(10, 99)
+    d = random.randint(10, 99)
+    f = random.randint(10, 99)
+    h = random.randint(10, 99)
+    identity = f'{a}{b}{c}{d}{e}{f}{g}{h}{i}'
 
     user = User.objects.get(username=username)
     hist = History.objects.get(user=user)

@@ -11,6 +11,8 @@ from crypto_transactions.models import History
 from django.shortcuts import redirect
 import time
 from .process import bal_converter, investments, fiat_calculator
+import string
+import random
 
 
 # Create your views here.
@@ -20,6 +22,8 @@ from .process import bal_converter, investments, fiat_calculator
 def home_page(request):
     page = 'landing.html'
     template = loader.get_template(page)
+    user = User.objects.all()
+    print(user)
 
     logout(request)
     return HttpResponse(template.render({'header': 'TESTING ABOUT VIEW'}, request), status=status.HTTP_200_OK)
@@ -44,7 +48,7 @@ def login_user(request):
             request.session['current_user'] = username
             request.session['user_password'] = password
 
-            request.session.set_expiry(0)
+
             request.session['session_timeout'] = time.time() + 100000
             print(request.session['session_timeout'])
 
@@ -68,20 +72,28 @@ def dash(request):
             active_user = User.objects.get(username=request.user)
 
             user = UsersData.objects.get(user=active_user)
+            print('passyfysjbxjuqii')
 
             invested = investments(active_user)
-            print(invested)
+            print('passyfyi')
+
+            if not invested:
+                pass
 
             btc = float(user.bitcoin_balance)
             eth = float(user.etherum_balance)
             ltc = float(user.litecoin_balance)
             bch = float(user.bitcoin_cash_balance)
+            print("pass1")
 
             # handle total balance
 
             total_balance = fiat_calculator(btc, eth, ltc, bch)
 
-            balance = str("{:.1f}".format(total_balance))
+
+
+
+            print("pass1")
 
             x = ['BITCOIN', 'ETHERUM', 'LITECOIN', 'BITCOINCASH']
             btc = str("{:.8f}".format(user.bitcoin_balance))
@@ -89,13 +101,29 @@ def dash(request):
             ltc = str("{:.8f}".format(user.litecoin_balance))
             bch = str("{:.8f}".format(user.bitcoin_cash_balance))
             local = str("{:.1f}".format(user.local_currency_balance))
-            local = bal_converter(local)
+            balance = str("{:.1f}".format(total_balance))
             balance = bal_converter(balance)
+
+            total_payment = str("{:.1f}".format(invested['total_payment']))
+            invested['total_payment'] = bal_converter(total_payment)
+
+            lower_upper_alphabet = string.ascii_letters
+
+            b = random.choice(lower_upper_alphabet).lower()
+            e = random.choice(lower_upper_alphabet).lower()
+            g = random.choice(lower_upper_alphabet).lower()
+            i = random.choice(lower_upper_alphabet).lower()
+            a = random.randint(10, 99)
+            c = random.randint(10, 99)
+            d = random.randint(10, 99)
+            f = random.randint(10, 99)
+            h = random.randint(10, 99)
+            print(f'{a}{b}{c}{d}{e}{f}{g}{h}{i}')
 
             page = 'pages/dashboard.html'
             template = loader.get_template(page)
-            context = {'total_balance': total_balance, 'user': str(request.user), 'x': x, 'btc': btc, "eth": eth,
-                       'ltc': ltc, "bch": bch,  'integer': balance, 'invested': invested}
+            context = {'user': str(request.user), 'x': x, 'btc': btc, "eth": eth,
+                       'ltc': ltc, "bch": bch,  'integer': balance, 'invested': invested, 'p': 0}
             print(context)
             return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
@@ -284,3 +312,9 @@ def terms(request):
     page = 'pages/terms&c.html'
     template = loader.get_template(page)
     return HttpResponse(template.render({'header': 'TESTING confirm VIEW'}, request), status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def test(request):
+    page = 'pages/test.html'
+    template = loader.get_template(page)
+    return HttpResponse(template.render({'p': 50}, request), status=status.HTTP_200_OK)

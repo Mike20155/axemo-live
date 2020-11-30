@@ -70,6 +70,7 @@ class Address(models.Model):
     address = models.CharField(max_length=200, blank=True, null=True)
     currency = models.CharField(max_length=250)
     date_created = models.DateTimeField(default=timezone.now)
+    objects = None
 
     def __str__(self):
         return str(self.user)
