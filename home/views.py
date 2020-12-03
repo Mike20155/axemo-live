@@ -313,14 +313,4 @@ def logout_view(request):
 def test(request):
     page = 'pages/test.html'
     template = loader.get_template(page)
-    start=''
-    percentage = ''
-    fiat_capital = ''
-    crypto_capital = ''
-    week = ''
-
-    invested = {'start': start, 'percentage': percentage, 'fiat': fiat_capital, 'crypto': crypto_capital, 'week': week,
-     'total_paid_crypto': " ", 'total_paid_fiat': "", 'total_payment': "",
-     'currency':"", 'id': ""}
-
     return HttpResponse(template.render({'logo': ''}, request), status=status.HTTP_200_OK)
