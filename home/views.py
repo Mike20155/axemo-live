@@ -35,6 +35,7 @@ def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
+        print(request.POST)
 
         try:
             user = authenticate(username=username, password=password)
@@ -305,7 +306,7 @@ def terms(request):
 
 @api_view(['GET'])
 def logout_view(request):
-    # logout(request)
+    logout(request)
     return redirect(login_user)
 
 
