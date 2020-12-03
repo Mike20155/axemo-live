@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '192.168.43.117'
     'hidden-hollows-00126.herokuapp.com'
+    'bitchedda.com'
 ]
 
 
