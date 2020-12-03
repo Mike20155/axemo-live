@@ -16,13 +16,13 @@ eth_id = "181fc56c-73d6-568e-ab6d-1c0aedc9f333"
 ltc_id = "7c31f848-dc67-5510-8ff4-0e5e74a700c6"
 bch_id = "b38fa818-27f2-5fe2-822f-0d24ab658ee1"
 
+client = Client(key, secret)
+
 
 def get_address(user, cu):
-    print(type(cu))
     client = Client(key, secret)
 
     address = None
-    print(cu)
     if cu == 'BITCOIN':
         address = client.create_address(btc_id)
     if cu == 'ETHERUM':
@@ -39,7 +39,6 @@ def get_address(user, cu):
 
 
 def bal_converter(x):
-    print(len(x))
     if len(x) == 6:
         a = x[0]
         b = x[1:]
@@ -71,9 +70,10 @@ def bal_converter(x):
         return x
 
 
-def coinbase(param):
+def coinbase(param, to):
+    crypt = param['bal']
+    param['amount'] = crypt
 
-    print(f'data: {param}')
     try:
         # tx = ['completed']
         print('sending to coinbase....')
@@ -86,34 +86,28 @@ def coinbase(param):
             param['status'] = 'success'
             param['resolved'] = True
             currency = param['currency']
-            user = User.objects.get(username=param['user'])
-            user = UsersData.objects.get(user=user)
-            print(f'{user}'*10)
+            user = User.objects.filter(username=param['user'])[0]
+            user = UsersData.objects.filter(user=user)[0]
+
             if currency == 'BTC':
                 balance = float(user.bitcoin_balance)
                 balance -= float(param['amount'])
                 user.bitcoin_balance = balance
-                print(f'{balance}' * 10)
             elif currency == 'ETH':
                 balance = float(user.etherum_balance)
                 balance -= float(param['amount'])
                 user.etherum_balance = balance
-                print(f'{balance}' * 10)
             elif currency == 'LTC':
                 balance = float(user.litecoin_balance)
                 balance -= float(param['amount'])
                 user.litecoin_balance = balance
-                print(f'{balance}' * 10)
             elif currency == 'BTC':
                 balance = float(user.bitcoin_cash_balance)
                 balance -= float(param['amount'])
                 user.bitcoin_cash_balance = balance
-                print(f'{balance}' * 10)
-            print(f'***' * 10)
+
             user.save()
-            print(f'***' * 10)
-            save(param)
-            print('success'*10)
+            save(param, to)
             return 'success'
         else:
             return 'transaction failed'
@@ -133,113 +127,105 @@ def luno(param):
 
         param['status'] = 'pending'
         param['resolved'] = False
-        save(param)
+        # save(param, to)
         return 'success'
     except Exception as e:
         return str(e)
 
 
-def local(param):
+def local(param, to):
     try:
         receiver = param['to']
         sender = param['user']
         currency = param['currency']
-        print(currency)
-        if User.objects.get(email=receiver):
+        crypt = param['crypto']
+        param['amount'] = crypt
+        x = User.objects.filter(email=receiver)
+        if len(x) == 1:
+            sender = User.objects.filter(username=sender)[0]
+            user = UsersData.objects.filter(user=sender)[0]
 
-            sender = User.objects.get(username=sender)
-            sender_email = sender.email
-
-            user = User.objects.get(username=sender)
-            user = UsersData.objects.get(user=user)
             if currency == 'BTC':
                 balance = float(user.bitcoin_balance)
-                print(balance)
                 balance -= float(param['amount'])
                 user.bitcoin_balance = balance
-                print(user.bitcoin_balance)
             elif currency == 'ETH':
                 balance = float(user.etherum_balance)
-                print(balance)
                 balance -= float(param['amount'])
                 user.etherum_balance = balance
-                print(user.etherum_balance)
             elif currency == 'LTC':
                 balance = float(user.litecoin_balance)
-                print(balance)
                 balance -= float(param['amount'])
                 user.litecoin_balance = balance
-                print(user.litecoin_balance)
             elif currency == 'BCH':
                 balance = float(user.bitcoin_cash_balance)
-                print(balance)
                 balance -= float(param['amount'])
                 user.bitcoin_cash_balance = balance
-                print(user.bitcoin_cash_balance)
-            elif currency == 'NGN':
-                balance = float(user.local_currency_balance)
-                print(balance)
-                balance -= float(param['amount'])
-                user.local_currency_balance = balance
-                print(user.local_currency_balance)
+
             user.save()
             param['type'] = 'Transfer'
             param['status'] = 'success'
             param['resolved'] = True
             param['type'] = 'Debit'
-            print(param)
-            identity = save(param)
-            print(identity*10)
+            print('ghcyech yce')
 
-            receiver = User.objects.get(email=receiver)
-            r = UsersData.objects.get(user=receiver)
-            hist = History.objects.get(user=receiver)
+            identity = save(param, to)
+            print(identity)
+
+            receiver = User.objects.filter(email=receiver)[0]
+            r = UsersData.objects.filter(user=receiver)[0]
+
+            hist = History.objects.filter(user=receiver)[0]
             param['type'] = 'Credit'
-            param['from'] = sender_email
+            param['from'] = f'{to[:20]}......'
+            param['real_address'] = to
+
+            print('heloo')
             print(param)
-            if currency == 'BTC':
-                balance = float(r.bitcoin_balance)
-                print(balance)
-                balance += float(param['amount'])
-                r.bitcoin_balance = balance
-                print(r.bitcoin_balance)
-                history = eval(hist.btc_history)
-                history[identity] = param
-                hist.btc_history = str(history)
-            elif currency == 'ETH':
-                balance = float(r.etherum_balance)
-                balance += float(param['amount'])
-                r.etherum_balance = balance
-                history = eval(hist.eth_history)
-                history[identity] = param
-                hist.eth_history = str(history)
-            elif currency == 'LTC':
-                balance = float(r.litecoin_balance)
-                balance += float(param['amount'])
-                r.litecoin_balance = balance
-                history = eval(hist.ltc_history)
-                history[identity] = param
-                hist.ltc_history = str(history)
-            elif currency == 'BCH':
-                balance = float(r.bitcoin_cash_balance)
-                balance += float(param['amount'])
-                r.bitcoin_cash_balance = balance
-                history = eval(hist.bch_history)
-                history[identity] = param
-                hist.bch_history = str(history)
-            elif currency == 'NGN':
-                balance = float(r.local_currency_balance)
-                balance += float(param['amount'])
-                r.local_currency_balance = balance
-                history = eval(hist.ngn_history)
-                history[identity] = param
-                hist.ngn_history = str(history)
+            amount = float(param['amount'])
+
+            try:
+                if currency == 'BTC':
+                    balance = float(r.bitcoin_balance)
+                    balance += amount
+                    r.bitcoin_balance = balance
+                    history = eval(hist.btc_history)
+                    print('XERTSUUSOOS')
+                    print(param)
+                    history[identity] = param
+                    hist.btc_history = str(history)
+                elif currency == 'ETH':
+                    balance = float(r.etherum_balance)
+                    balance += amount
+                    r.etherum_balance = balance
+                    history = eval(hist.eth_history)
+                    history[identity] = param
+                    hist.eth_history = str(history)
+                elif currency == 'LTC':
+                    balance = float(r.litecoin_balance)
+                    balance += amount
+                    r.litecoin_balance = balance
+                    history = eval(hist.ltc_history)
+                    history[identity] = param
+                    hist.ltc_history = str(history)
+                elif currency == 'BCH':
+                    balance = float(r.bitcoin_cash_balance)
+                    balance += amount
+                    r.bitcoin_cash_balance = balance
+                    history = eval(hist.bch_history)
+                    history[identity] = param
+                    hist.bch_history = str(history)
+            except Exception as e:
+                print(e)
+                print('error herer')
+
             hist.save()
             r.save()
             return 'success'
         else:
             return f'User: {receiver} does not exist'
     except Exception as e:
+        print(f'error is {e}')
         if str(e) == "User matching query does not exist.":
             return {'error': 'Invalid receivers address.',
                     'message': 'please cross-check address and try again'}
@@ -247,7 +233,7 @@ def local(param):
             return str(e)
 
 
-def save(param):
+def save(param, to):
     username = param['user']
     param['type'] = 'Debit'
     cur = param['currency']
@@ -257,8 +243,9 @@ def save(param):
 
     user = User.objects.get(username=username)
     hist = History.objects.get(user=user)
-
-    print(cur)
+    param['amount'] = str("{:.8f}".format(param['amount']))
+    param['to'] = f'{to[:20]}......'
+    param['real_address'] = to
 
     if cur == 'BTC':
         history = eval(hist.btc_history)
@@ -281,9 +268,32 @@ def save(param):
 
     dec = param['desc']
     description = f'From: axemo \n sender: {user} \n description: {dec}'
+    param['route'] = 'axemo'
+
     debit = DebitTransaction(user=user, username=username, tx_hash=identity, amount=param['amount'],
-                             description=description, destination=param['to'],
+                             description=description, destination=to,
                              status=param['status'], resolve=param['resolved'], route=param['route'])
+
     debit.save()
-    print('transaction saved')
     return identity
+
+
+def crypto_calculator(btc, eth, ltc, bch):
+    btc_rate = client.get_exchange_rates(currency='BTC')
+    eth_rate = client.get_exchange_rates(currency='ETH')
+    ltc_rate = client.get_exchange_rates(currency='LTC')
+    bch_rate = client.get_exchange_rates(currency='BCH')
+
+    btc_rate = float(btc_rate['rates']['USD'])
+    eth_rate = float(eth_rate['rates']['USD'])
+    ltc_rate = float(ltc_rate['rates']['USD'])
+    bch_rate = float(bch_rate['rates']['USD'])
+
+    btc_usd = btc/btc_rate
+    eth_usd = eth/eth_rate
+    ltc_usd = ltc/ltc_rate
+    bch_usd = bch/bch_rate
+
+    total_crypto = btc_usd + eth_usd + ltc_usd + bch_usd
+
+    return total_crypto

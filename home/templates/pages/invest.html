@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="zxx" class="js">
+<head>
+    {% load static %}
+
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Terms and conditions">
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="images/favicon.png' %}"><!-- Site Title  --><title>BitChedda</title><!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="{% static 'statics_land/assets/css/vendor.bundlee222.css' %} ">
+    <!-- Custom styles for this template -->
+
+    <meta name="theme-color" content="#0027e3">
+
+
+    <!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+<!-- jQuery and JS bundle w/ Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,300,700' rel='stylesheet' type='text/css'>
+  <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#0027e3">
+  <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0027e3">
+
+</head>
+<body class="theme-light io-zinnia" data-spy="scroll" data-target="#mainnav" data-offset="80"><!-- Header -->
+<header class="site-header is-sticky"><!-- Place Particle Js -->
+    <div id="particles-js" class="particles-container particles-js"></div><!-- Navbar -->
+    <div class="navbar navbar-full navbar-expand-lg is-transparent" id="mainnav" style="background-color: #0027e3;"><a class="navbar-brand animated"
+                                                                                    data-animate="fadeInDown"
+                                                                                    data-delay=".65"
+                                                                                    href="{% url 'dash' %}">
+        <h3 style="color: white;">BitChedda</h3></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"><span
+                class="navbar-toggler-icon"><span class="ti ti-align-justify"></span></span></button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarToggle">
+            <ul class="navbar-nav animated remove-animation" data-animate="fadeInDown" data-delay=".35">
+                  <li class="nav-item"><a class="nav-link menu-link" href="{% url 'dash' %}" style="color: white;">Dashboard<span
+                        class="sr-only">(current)</span></a></li>
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'profile' %}" style="color: white;">My Profile</a></li>
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'home_page' %}" style="color: white;">Support</a></li>
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'logout' %}" style="color: white;">Logout</a></li>
+            </ul>
+        </div>
+    </div><!-- End Navbar --><!-- Banner/Slider -->
+
+
+    <div class="section section-pad-md section-bg" id="">
+        <div class="container animated" data-animate="fadeInRight"
+                        data-delay=".95" style="margin-top: 50px;">
+            <div class="row ">
+                <div class="col-md-7">
+
+                    <h4 style="font-weight: 500">Please select the currency you want to trade with</h4>
+
+                        </div>
+                </div><!-- .col -->
+            </div><!-- .row -->
+        </div><!-- .container -->
+
+
+
+        <div class="section section-pad-md section-bg" id="">
+        <div class="container animated" data-animate="fadeInRight"
+                        data-delay=".95" style="margin-top: 50px;">
+            <div class="row justify-content-between">
+                                          <div style="margin-left: 30px;">
+          <img src="https://img.icons8.com/fluent/72/000000/bitcoin.png"/>
+          </div>
+                                          <div>
+          <img src="https://img.icons8.com/fluent/72/000000/ethereum.png"/>
+          </div>
+                                          <div>
+          <img src="https://img.icons8.com/fluent/72/000000/litecoin.png"/>
+          </div>
+
+               <div style="margin-right: 30px; margin-top: 7px">
+                <img src="{% static 'assets/img/icons/common/bch.png' %}">
+                </div>
+
+            </div><!-- .row -->
+        </div><!-- .container -->
+
+
+
+
+
+
+        <div class="section section-pad-md section-bg" id="select">
+    <div class="container animated" data-animate="fadeInLeft"
+                        data-delay=".95">
+        <div class="card" style="margin-top: 80px; border-color: blue;">
+
+   <form role="form"  action="{% url 'invest_amount' %}" method="post">
+                {% csrf_token %}
+       <h2 class="col-form-label col-sm-1 pt-0" style="margin-top: 20px;" >Select a currency</h2>
+      <div class="col-sm-10">
+        <div class="form-check" style="margin-top: 10px;">
+          <input class="form-check-input" type="radio" name="currency" id="bitcoin" value="BITCOIN" checked>
+          <label class="form-check-label" for="bitcoin" >
+            Bitcoin
+          </label>
+        </div>
+         <div class="form-check" style="margin-top: 10px;">
+          <input class="form-check-input" type="radio" name="currency" id="etherum" value="ETHERUM">
+          <label class="form-check-label" for="etherum">
+            Ethereum
+          </label>
+        </div>
+        <div class="form-check" style="margin-top: 10px;">
+          <input class="form-check-input" type="radio" name="currency" id="litecoin" value="LITECOIN">
+          <label class="form-check-label" for="litecoin">
+            Litecoin
+          </label>
+        </div>
+               <div class="form-check" style="margin-top: 10px; margin-bottom: 20px;">
+          <input class="form-check-input" type="radio" name="currency" id="bitcoincash" value="BITCOINCASH">
+          <label class="form-check-label" for="bitcoincash">
+            Bitcoincash
+          </label>
+        </div>
+      </div>
+        </div>
+
+    </div>
+        </div>
+
+
+
+    <div class="section section-pad-md section-bg" id="faq">
+    <div class="container animated" data-animate="fadeInUp"
+                        data-delay=".95">
+        <div class="row justify-content-center text-center">
+            <div class="col-md-7">
+       <div class="col justify-content-center" style="margin-top: 100px;">
+              <button type="submit" class="btn btn-primary btn-lg btn-block">Continue</button>
+          </div>
+            </div>
+
+        </div>
+        </form>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+<div id="preloader">
+    <div id="loader"></div>
+    <div class="loader-section loader-top"></div>
+    <div class="loader-section loader-bottom"></div>
+</div><!-- Preloader End --><!-- JavaScript (include all script here) -->
+<script src="{% static 'statics_land/assets/js/jquery.bundlee222.js' %}"></script>
+<script src="{% static 'statics_land/assets/js/scripte222.js' %}"></script>
+</body>
+</html>

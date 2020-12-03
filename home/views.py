@@ -3,7 +3,6 @@ from rest_framework import status
 from django.template import loader
 from .models import RegForm
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import UsersData
@@ -11,8 +10,6 @@ from crypto_transactions.models import History
 from django.shortcuts import redirect
 import time
 from .process import bal_converter, investments, fiat_calculator
-import string
-import random
 
 
 # Create your views here.
@@ -23,8 +20,6 @@ def home_page(request):
     page = 'landing.html'
     template = loader.get_template(page)
     user = User.objects.all()
-    print(user)
-
     logout(request)
     return HttpResponse(template.render({'header': 'TESTING ABOUT VIEW'}, request), status=status.HTTP_200_OK)
 
@@ -41,100 +36,91 @@ def login_user(request):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
 
-        user = authenticate(username=username, password=password)
-        if authenticate(username=username, password=password):
-            login(request, user)
+        try:
+            user = authenticate(username=username, password=password)
+            if authenticate(username=username, password=password):
+                login(request, user)
+                print('passsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
 
-            request.session['current_user'] = username
-            request.session['user_password'] = password
+                request.session['current_user'] = username
+                request.session['user_password'] = password
 
+                request.session['session_timeout'] = time.time() + 100000
+                request.session['message'] = ''
+                request.session['current_status'] = ''
 
-            request.session['session_timeout'] = time.time() + 100000
-            print(request.session['session_timeout'])
+                return redirect(dash)
 
-            return redirect(dash)
+            else:
+                page = 'pages/login.html'
+                template = loader.get_template(page)
+                context = {'message': 'Invalid e-mail or password! '}
+                return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
 
-        else:
+        except Exception as e:
             page = 'pages/login.html'
             template = loader.get_template(page)
-            context = {'message': 'Invalid e-mail or password! '}
+            context = {'timeout': e}
             return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 @api_view(['GET', 'POST'])
 def dash(request):
+    print('pass')
     try:
         request.session['session_timeout'] = time.time() + 100000
         if request.session['session_timeout'] > time.time():
-            print(f"time left = {request.session['session_timeout'] - time.time()} seconds")
             request.session['session_timeout'] = time.time() + 100000
+
+            request.session['message'] = ''
+            request.session['current_status'] = ''
 
             active_user = User.objects.get(username=request.user)
 
             user = UsersData.objects.get(user=active_user)
-            print('passyfysjbxjuqii')
 
             invested = investments(active_user)
-            print('passyfyi')
-
-            if not invested:
-                pass
 
             btc = float(user.bitcoin_balance)
             eth = float(user.etherum_balance)
             ltc = float(user.litecoin_balance)
             bch = float(user.bitcoin_cash_balance)
-            print("pass1")
 
             # handle total balance
 
             total_balance = fiat_calculator(btc, eth, ltc, bch)
-
-
-
-
-            print("pass1")
 
             x = ['BITCOIN', 'ETHERUM', 'LITECOIN', 'BITCOINCASH']
             btc = str("{:.8f}".format(user.bitcoin_balance))
             eth = str("{:.8f}".format(user.etherum_balance))
             ltc = str("{:.8f}".format(user.litecoin_balance))
             bch = str("{:.8f}".format(user.bitcoin_cash_balance))
-            local = str("{:.1f}".format(user.local_currency_balance))
+
             balance = str("{:.1f}".format(total_balance))
             balance = bal_converter(balance)
 
-            total_payment = str("{:.1f}".format(invested['total_payment']))
-            invested['total_payment'] = bal_converter(total_payment)
-
-            lower_upper_alphabet = string.ascii_letters
-
-            b = random.choice(lower_upper_alphabet).lower()
-            e = random.choice(lower_upper_alphabet).lower()
-            g = random.choice(lower_upper_alphabet).lower()
-            i = random.choice(lower_upper_alphabet).lower()
-            a = random.randint(10, 99)
-            c = random.randint(10, 99)
-            d = random.randint(10, 99)
-            f = random.randint(10, 99)
-            h = random.randint(10, 99)
-            print(f'{a}{b}{c}{d}{e}{f}{g}{h}{i}')
+            if invested:
+                total_payment = str("{:.1f}".format(invested['total_payment']))
+                invested['total_payment'] = bal_converter(total_payment)
 
             page = 'pages/dashboard.html'
             template = loader.get_template(page)
             context = {'user': str(request.user), 'x': x, 'btc': btc, "eth": eth,
-                       'ltc': ltc, "bch": bch,  'integer': balance, 'invested': invested, 'p': 0}
-            print(context)
+                       'ltc': ltc, "bch": bch,  'integer': balance, 'invested': invested}
             return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         else:
             logout(request)
-            return redirect(login_user)
+            page = 'pages/login.html'
+            template = loader.get_template(page)
+            context = {'timeout': 'This session has expired, please log in again to continue.'}
+            return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
 
     except Exception as e:
-        print(e)
-        logout(request)
-        return redirect(login_user)
+        page = 'pages/login.html'
+        template = loader.get_template(page)
+        context = {'timeout': e}
+        return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 @api_view(['GET', 'POST'])
@@ -152,8 +138,6 @@ def register(request):
         first_name = request.POST.get('username', '')
         last_name = request.POST.get('lastname', '')
         password_1 = request.POST.get('password', '')
-        print(password_1)
-        print(len(password_1))
         password_2 = request.POST.get('password2', '')
         email = request.POST.get('email', '')
         username = request.POST.get('email', '').rpartition('@')[0]
@@ -182,8 +166,6 @@ def register(request):
 
             if len(User.objects.filter(email=email)) == 0:
                 print('pass')
-
-
 
             try:
                 User.objects.get(email=email)
@@ -226,7 +208,7 @@ def register(request):
         return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
 
     else:
-        return Response('invalid request', status=status.HTTP_400_BAD_REQUEST)
+        redirect(home_page)
 
 
 @api_view(['GET', 'POST'])
@@ -264,17 +246,20 @@ def otp_validator(request):
 
                 context = {'message': 'Registration successful',
                            'data': data}
+                print(context)
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     login(request, user)
                     context['logged in'] = str(request.user)
                     return redirect(dash)
                 else:
-                    return Response({'an error occurred'}, status=status.HTTP_401_UNAUTHORIZED)
+                    redirect(home_page)
 
             except Exception as e:
-                print(e)
-                return redirect(register)
+                page = 'pages/register.html'
+                template = loader.get_template(page)
+                context = {'error': e}
+                return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
 
         else:
             page = 'pages/otp.html'
@@ -286,24 +271,28 @@ def otp_validator(request):
         redirect(home_page)
 
 
-@api_view(['GET'])
-def logout_view(request):
-    logout(request)
-    return redirect(login_user)
+
+
 
 
 @api_view(['GET'])
 def confirm(request):
     page = 'pages/confirm.html'
     template = loader.get_template(page)
-    return HttpResponse(template.render({'header': 'TESTING confirm VIEW'}, request), status=status.HTTP_200_OK)
+    return HttpResponse(template.render({'header': ''}, request), status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 def profile(request):
     page = 'pages/profile.html'
     template = loader.get_template(page)
-    context = {'user': request.user}
+    user = request.user
+    email = user.email
+    user = UsersData.objects.get(username=user)
+    first_name = user.first_name
+    last_name = user.last_name
+    date_created = user.date_created
+    context = {'email': email, 'first_name': first_name, 'last_name': last_name, 'date_created': date_created}
     return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
 
@@ -311,10 +300,27 @@ def profile(request):
 def terms(request):
     page = 'pages/terms&c.html'
     template = loader.get_template(page)
-    return HttpResponse(template.render({'header': 'TESTING confirm VIEW'}, request), status=status.HTTP_200_OK)
+    return HttpResponse(template.render({'header': 'Terms and conditions'}, request), status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def logout_view(request):
+    # logout(request)
+    return redirect(login_user)
+
 
 @api_view(['GET'])
 def test(request):
     page = 'pages/test.html'
     template = loader.get_template(page)
-    return HttpResponse(template.render({'p': 50}, request), status=status.HTTP_200_OK)
+    start=''
+    percentage = ''
+    fiat_capital = ''
+    crypto_capital = ''
+    week = ''
+
+    invested = {'start': start, 'percentage': percentage, 'fiat': fiat_capital, 'crypto': crypto_capital, 'week': week,
+     'total_paid_crypto': " ", 'total_paid_fiat': "", 'total_payment': "",
+     'currency':"", 'id': ""}
+
+    return HttpResponse(template.render({'logo': ''}, request), status=status.HTTP_200_OK)

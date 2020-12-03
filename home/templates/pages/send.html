@@ -39,19 +39,83 @@
                 <li class="nav-item"><a class="nav-link menu-link" href="{% url 'home_page' %}" style="color: white;">Support</a></li>
                 <li class="nav-item"><a class="nav-link menu-link" href="{% url 'logout' %}" style="color: white;">Logout</a></li>
             </ul>
-
         </div>
     </div><!-- End Navbar --><!-- Banner/Slider -->
 
 
-    <!-- Start Section -->
+
+
+        <!-- Start Section -->
 <div class="section section-pad-md section-bg" id="faq">
     <div class="container">
         <div class="row justify-content-center text-center">
             <div class="col-md-7">
+                <div class="text center">
+                <div class="col justify-content-center"></div>
+                <h1>Enter amount</h1>
+                    <label style="font-size: 20px">${{fiat}}0 available</label>
+
+                </div>
+                <small class="text center" style="font-size: 15px; margin-top: -100px;">≈ {{crypt}} {{symbol}}</small>
+                <div class="text center">
+                   {%if status != 'success' %}
+                       {%if p > 0 %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">{{message.a}}
+                            <strong>{{message.b}} </strong>
+                            {{message.c}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                        {% endif %}
+                    {% endif %}
+                        {%if status == 'success' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">{{message.a}}
+                            <strong>{{message.b}} </strong>to <strong>{{message.c}}</strong> {{message.d}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>          {% endif %}
+                </div>
 
             </div><!-- .col -->
         </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- End Section -->
+
+
+
+    <!-- Start Section -->
+<div class="section section-bg" id="send">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form role="form" class="form-message text-center" action="{% url 'check' %}"  method="post">
+                    {% csrf_token %}
+                    <div class="input-field animated" data-animate="fadeInUp" data-delay=".6">
+                        <div class="row justify-content-center">
+                        <h1 style="font-weight: 300; font-size: 80px; margin-left: -40px; margin-top: 32px;">$</h1><input name="amount" id="amount"
+                                                                  type="number" class="input-line required"
+                                                                  style="min-height:150px; max-width:60%;font-size: 50px;"
+                                                                  required><label class="input-title">Enter amount in dollars</label></div>
+                    </div>
+                    <div class="form-group " style="margin-top: 20px">
+                        <div class="row justify-content-center">
+                            <input  class="form-control" style="margin-top: 60px; max-width: 70%;  min-height: 45px;"  type="text" name="address" id="address" placeholder="BTC address" required>
+                        </div>
+                    </div>
+                    <div class="text center">
+                      <button type="submit" class="btns"  style="background-color:#0262f6; margin-top: 40px; min-width: 60%; min-height: 54px">
+                          <span class="btn-inner--text" style="font-size: 16px; color: white;">Continue</span>
+                      </button>
+                    </div>
+                    </form>
+            </div>
+        </div>
+
+
+
+
     </div><!-- .container -->
 </div><!-- End Section -->
 

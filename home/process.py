@@ -20,8 +20,6 @@ def investments(user):
             percentage = i.percentage
             crypto_capital = i.capital
 
-            print('pass')
-
             now = timezone.now()
 
             diff = now - start
@@ -31,12 +29,8 @@ def investments(user):
             if len(str(now - start)) < 16:
                 total = 0
 
-            print(len(tot))
-
             weeks = int(total)/7
             weeks = int(weeks)
-            print('pass')
-            print(int(weeks))
 
             user = UsersData.objects.get(user=active_user)
 
@@ -50,42 +44,35 @@ def investments(user):
                 c = float(user.litecoin_balance)
             elif i.currency == 'BCH':
                 c = float(user.bitcoin_cash_balance)
-            print('pass')
 
             if weeks == 1:
 
                 if percentage < 35:
-                    print('due')
                     top_up = float((35/100)*float(crypto_capital))
                     c += top_up
                     i.week = 'one'
                     tp = float(i.total_paid)
                     tp += top_up
                     i.total_paid = tp
-                    print('pass3')
                     i.percentage = 35
 
                 else:
                     pass
             elif weeks == 2:
                 if percentage < 70:
-                    print('due')
                     p = (70 - percentage)
                     top_up = float((p / 100) * crypto_capital)
                     c += top_up
                     i.week = 'two'
-                    print('pass2')
                     tp = float(i.total_paid)
                     tp += top_up
                     i.total_paid = tp
-                    print('pass3')
                     i.percentage = 70
                 else:
                     pass
             elif weeks == 3:
 
                 if percentage < 105:
-                    print('due')
                     p = (105 - percentage)
                     top_up = float((p / 100) * crypto_capital)
                     c += top_up
@@ -93,13 +80,11 @@ def investments(user):
                     tp = float(i.total_paid)
                     tp += top_up
                     i.total_paid = tp
-                    print('pass3')
                     i.percentage = 105
                 else:
                     pass
             elif weeks == 4:
                 if percentage < 140:
-                    print('due')
                     p = (140 - percentage)
                     top_up = float((p / 100) * crypto_capital)
                     c += top_up
@@ -107,14 +92,12 @@ def investments(user):
                     tp = float(i.total_paid)
                     tp += top_up
                     i.total_paid = tp
-                    print('pass36766587')
                     i.percentage = 140
                     i.status = 'completed'
                 else:
                     pass
             else:
                 pass
-            print('pass')
 
             i.save()
 
@@ -133,9 +116,9 @@ def investments(user):
             fiat_capital = str("{:.1f}".format(fiat_cap))
             fiat_capital = bal_converter(str(fiat_capital))
 
-            total_paid_fiat = ex_rate * float(total_paid_crypto)
+            paid_fiat = ex_rate * float(total_paid_crypto)
 
-            total_paid_fiat = str("{:.1f}".format(total_paid_fiat))
+            total_paid_fiat = str("{:.1f}".format(paid_fiat))
             total_paid_fiat = bal_converter(str(total_paid_fiat))
 
             crypto_capital = str("{:.8f}".format(crypto_capital))
@@ -143,6 +126,7 @@ def investments(user):
             total_paid_crypto = str("{:.8f}".format(total_paid_crypto))
 
             total_payment = (140/100)*fiat_cap
+            percentage = (paid_fiat/total_payment)*100
 
             data = {'start': start, 'percentage': percentage, 'fiat': fiat_capital, 'crypto': crypto_capital, 'week': week,
                     'total_paid_crypto': total_paid_crypto, 'total_paid_fiat': total_paid_fiat, 'total_payment': total_payment,'currency': currency, 'id': id}
@@ -154,7 +138,6 @@ def investments(user):
 
 
 def fiat_calculator(btc, eth, ltc, bch):
-    print(btc)
     btc_rate = client.get_exchange_rates(currency='BTC')
     eth_rate = client.get_exchange_rates(currency='ETH')
     ltc_rate = client.get_exchange_rates(currency='LTC')
@@ -170,18 +153,13 @@ def fiat_calculator(btc, eth, ltc, bch):
     ltc_usd = ltc_rate * ltc
     bch_usd = bch_rate * bch
 
-    print(btc_usd)
-
     total_usd = btc_usd + eth_usd + ltc_usd + bch_usd
-
-    print(total_usd)
 
     return total_usd
 
 
 def bal_converter(x):
 
-    print(len(x))
     if len(x) == 6:
         a = x[0]
         b = x[1:]

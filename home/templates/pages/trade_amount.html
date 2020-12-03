@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="author" content="Softnio">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Receive address">
+    <meta name="description" content="Terms and conditions">
     <!-- Fav Icon -->
     <link rel="shortcut icon" href="images/favicon.png' %}"><!-- Site Title  --><title>BitChedda</title><!-- Vendor Bundle CSS -->
     <link rel="stylesheet" href="{% static 'statics_land/assets/css/vendor.bundlee222.css' %} ">
@@ -32,7 +32,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"><span
                 class="navbar-toggler-icon"><span class="ti ti-align-justify"></span></span></button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarToggle">
-               <ul class="navbar-nav animated remove-animation" data-animate="fadeInDown" data-delay=".35">
+            <ul class="navbar-nav animated remove-animation" data-animate="fadeInDown" data-delay=".35">
                   <li class="nav-item"><a class="nav-link menu-link" href="{% url 'dash' %}" style="color: white;">Dashboard<span
                         class="sr-only">(current)</span></a></li>
                 <li class="nav-item"><a class="nav-link menu-link" href="{% url 'profile' %}" style="color: white;">My Profile</a></li>
@@ -44,59 +44,80 @@
     </div><!-- End Navbar --><!-- Banner/Slider -->
 
 
-    <!-- Start Section -->
+
+
+        <!-- Start Section -->
 <div class="section section-pad-md section-bg" id="faq">
     <div class="container">
-                <div class="row justify-content-center" style="margin-top: 100px; margin-bottom: 40px;">
-                    <h2 >{{ currency }} address</h2>
-                </div>
-                <div class="row justify-content-center">
-                    <img src='{{ source }}'>
-                </div>
-                <div class="row justify-content-center" style="margin-top: 20px">
-                    <label id="address" style="font-size: ">{{ address }}</label>
-                </div>
-                <div class="row justify-content-center" style="margin-top: 10px">
-                    <button type="button"  class="btns btns-success" data-container="body" data-toggle="popover" data-color="default" data-placement="top"
-                            data-content="Address copied" onclick="copyToClipboard('#address')"
-                             style="margin-top: 30px;">
-                        <span class="btn-inner--text" style=" color: white;">copy</span>
-                    </button>
-                    <script>
-function copyToClipboard(element) {
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val($(element).text()).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
-</script>
-            </div>
+        <div class="row justify-content-center text-center">
+            <div class="col-md-7">
+                <div class="text center">
+                <div class="col justify-content-center"></div>
+                <h1>Enter amount</h1>
+                    <label style="font-size: 20px">${{fiat}}0 available</label>
 
-
+                </div>
+                <small class="text center" style="font-size: 15px; margin-top: -100px;">≈ {{crypt}} {{symbol}}</small>
+                <div class="text center">
+                   {%if status != 'success' %}
+                       {%if p > 0 %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">{{message.a}}
+                            <strong>{{message.b}} </strong>
+                            {{message.c}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                        {% endif %}
+                    {% endif %}
+                        {%if status == 'success' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">{{message.a}}
+                            <strong>{{message.b}} </strong>to <strong>{{message.c}}</strong> {{message.d}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>          {% endif %}
+                </div>
 
             </div><!-- .col -->
         </div><!-- .row -->
     </div><!-- .container -->
-<!-- End Section -->
+</div><!-- End Section -->
 
 
-<div class="section" id="">
+
+    <!-- Start Section -->
+<div class="section section-bg" id="send">
     <div class="container">
-        <div class="row justify-content-center text-center" style="margin-top: -40px;">
-            <div class="col-md-7">
-
-                <a href="{% url 'crypto' c %}">
-
-                    <button type="button" class="btns"  style="background-color:#0262f6; margin-top: 40px; min-width: 104%; min-height: 54px">
-                        <span class="btn-inner--text" style="font-size: 16px; color: white;">Done</span>
-                    </button>
-                </a>
-
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form role="form" class="form-message text-center" action="{% url 'confirm_invest' %}"  method="post">
+                    {% csrf_token %}
+                    <div class="input-field animated" data-animate="fadeInUp" data-delay=".6">
+                        <div class="row justify-content-center">
+                        <h1 style="font-weight: 300; font-size: 80px; margin-left: -40px; margin-top: 32px;">$</h1><input name="amount" id="amount"
+                                                                  type="number" class="input-line required"
+                                                                  style="min-height:150px; max-width:60%;font-size: 50px;"
+                                                                  required><label class="input-title">Enter amount in dollars</label></div>
+                    </div>
+                    <div class="text center">
+                      <button type="submit" class="btns"  style="background-color:#0262f6; margin-top: 40px; min-width: 60%; min-height: 54px">
+                          <span class="btn-inner--text" style="font-size: 16px; color: white;">Continue</span>
+                      </button>
+                    </div>
+                    </form>
             </div>
         </div>
-    </div>
-</div>
+
+
+
+
+    </div><!-- .container -->
+</div><!-- End Section -->
+
+
+
+
 
 
 

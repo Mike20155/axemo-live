@@ -33,10 +33,9 @@
                 class="navbar-toggler-icon"><span class="ti ti-align-justify"></span></span></button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarToggle">
             <ul class="navbar-nav animated remove-animation" data-animate="fadeInDown" data-delay=".35">
-                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'profile' %}" style="color: white;">My Profile<span
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'register' %}" style="color: white;">Create a new account<span
                         class="sr-only">(current)</span></a></li>
                 <li class="nav-item"><a class="nav-link menu-link" href="{% url 'home_page' %}" style="color: white;">Support</a></li>
-                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'logout' %}" style="color: white;">Logout</a></li>
             </ul>
 
         </div>
@@ -55,43 +54,43 @@
                     <div class="row justify-content-center text-center">
         <h1 style="font-size: 25px;">Sign in to BitChedda </h1>
     </div>
-<div class="card border border-primary" style="margin-top: 50px;">
-  <div class="card-body">
               <div class="text-center text-muted mb-4">
-                 <small style="color: red;">{{message}}</small>
-                <small style="color: blue;">{{timeout}}</small>
+                  <label style="color: red; margin-top: 15px;">{{message}}</label>
+                <small style="color: yellow; margin-top: 15px;">{{timeout}}</small>
               </div>
 
    <form role="form"  action="{% url 'login' %}" method="post">
                 {% csrf_token %}
-  <div class="form-group" style="margin-top: 20px">
-    <input  class="form-control"  type="text" name="username" id="username" placeholder="Username" required>
+
+  <div class="form-group " style="margin-top: 20px">
+      <div class="row justify-content-center">
+    <input  class="form-control" style="margin-top: 0px; max-width: 70%;  min-height: 45px;"  type="text" name="username" id="username" placeholder="Username" required>
   </div>
+       </div>
+
   <div class="form-group">
-    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+      <div class="row justify-content-center">
+    <input type="password" style=" margin-top: 0px; max-width: 70%; min-height: 45px;" class="form-control" name="password" id="password" placeholder="Password" required>
+          <a href=""><label style="color: blue; margin-left: 20px; font-weight: 500;">Forgot password?</label></a>
   </div>
+
+       </div>
    <div class="text-center">
 
-          <button type="submit" class="btns btns-success"  style=" margin-top: 20px; min-width: 70%;">
+          <button type="submit" class="btns btns-success"  style=" margin-top: 5px; min-width: 70%;">
               <span class="btn-inner--text" style="font-size: 16px; color: white;">Sign in</span>
           </button>
    </div>
 
 </form>
+                <div class="row justify-content-center" style="margin-top: 10px">
 
-  </div></div>
-                              <div class="row justify-content-between" style="margin-top: 10px">
-                                                            <label style="margin-left: 20px;">Forgot password</label>
-                                                           <label style="margin-right: 20px; font-weight: 500;"> Dont have an account?</label>
-                                                        </div>
-
+                <label style="margin-right: 20px; font-weight: 500;"> Dont have an account? <a href="{% url 'register' %}"><label style="color: blue;">sign up here</label></a></label>
+            </div>
             </div><!-- .col -->
         </div><!-- .row -->
     </div><!-- .container -->
 </div><!-- End Section -->
-
-
-
 
 
 

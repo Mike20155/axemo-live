@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'axemolive.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'd3skj8064trmai',
@@ -103,14 +103,14 @@ DATABASES = {
         'PASSWORD': 'f38fb4fe5022e2c7e2441927ddcaf007e70d182c5999dc951b88d0000f3d1372',
 
     }
-}
+}"""
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}"""
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

@@ -7,7 +7,7 @@ import random
 import datetime
 
 
-def invest(param):
+def invest_save(param):
     try:
         user = param['user']
         currency = param['currency']

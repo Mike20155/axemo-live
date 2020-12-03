@@ -27,7 +27,7 @@
     <div class="navbar navbar-full navbar-expand-lg is-transparent" id="mainnav" style="background-color: #0027e3;"><a class="navbar-brand animated"
                                                                                     data-animate="fadeInDown"
                                                                                     data-delay=".65"
-                                                                                    href="{% url 'home_page' %}">
+                                                                                    href="{% url 'dash' %}">
         <h3 style="color: white;">BitChedda</h3></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"><span
                 class="navbar-toggler-icon"><span class="ti ti-align-justify"></span></span></button>
@@ -51,12 +51,12 @@
             <div class="row ">
                 <div class="col-md-7">
                     <div class="col" style="margin-top: 20px;">
-                    <h2 style="font-size: 30px; font-weight: 400; margin-bottom: -5px;">{% if currency == 'Bitcoin' %}BTC {{btc}}
-                  {% elif currency == 'Etherum' %}ETH {{eth}}{% elif currency == 'Litecoin' %}LTC {{ltc}}
-                  {% elif currency == 'Bitcoincash' %}BCH {{bch}}
+                    <h2 style="font-size: 30px; font-weight: 400; margin-bottom: -5px;">{% if currency == 'Bitcoin' %}{{btc}} BTC
+                  {% elif currency == 'Etherum' %}{{eth}} ETH{% elif currency == 'Litecoin' %}{{ltc}} LTC
+                  {% elif currency == 'Bitcoincash' %}{{bch}} BCH
                   {{ else }}
                   {% endif %}</h2>
-                        <label style="color: #a7afa6; margin-bottom: 50px; font-weight: 500; font-size: 20px;">$
+                        <label style="color: #a7afa6; margin-bottom: 50px; font-weight: 500; font-size: 20px;">≈ $
                             {{fiat}}0</label>
                     </div>
                 </div><!-- .col -->
@@ -67,13 +67,13 @@
 
 
 
-        <div class="section"  style="margin-top: -100px;" id="">
+        <div class="section"  style="margin-top: -100px;" id="wallet">`
 
         <div class="container">
             <div class="row ">
                 <div class="col-md-7">
                     <div class="col justify-content-center">
-                        <a href="">
+                        <a href="{% url 'send' %}">
                             <button type="button" class="btns btns-success"  style=" min-width: 104%; min-height: 54px">
                                                     <span class="btn-inner--text" style="font-size: 16px; color: white;">Send</span>
                                                 </button>
@@ -92,10 +92,27 @@
             <div class="container">
             <div class="row ">
                 <div class="col-md-7">
-
-
-
-
+                    <div class="text center" style="margin-top: 30px;">
+                   {%if status != 'success' %}
+                       {%if p > 0 %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">{{message.a}}
+                            <strong> {{message.b}} </strong>
+                            {{message.c}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                        {% endif %}
+                    {% endif %}
+                        {%if status == 'success' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">{{message.a}}
+                            <strong> {{message.b}} </strong>to<strong> {{message.c}} </strong>
+                            {{message.d}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>          {% endif %}
+                    </div>
                     <div class="col" style="margin-top: 40px;">
                     <h2 style="font-size: 25px; font-weight: 500; margin-bottom: 20px;">History</h2>
                     </div>
