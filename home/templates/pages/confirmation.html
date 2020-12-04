@@ -50,12 +50,18 @@
     <div class="container">
         <div class="row justify-content-center text-center">
             <div class="col-md-7">
+                   <div class="row" style="min-width: 90%; margin-left: -5px;">
+                    <a href="{% url 'send' %}">
+                        <i class="fas fa-angle-left"></i>
+                <label style="color: blue;  font-size: 20px; font-weight: 400">Back</label>
+                        </a>
+                    </div>
                 <div class="text center">
                 <div class="col justify-content-center"></div>
                 <h1>You are sending</h1>
 
 
-                    <label style="font-size: 40px; color: blue; font-weight: 400;">${{amount}}0</label>
+                    <label style="font-size: 40px; color: blue; font-weight: 400;">${{total}}0</label>
 
                 </div>
                 <small class="text center" style="font-size: 15px; margin-top: -100px;">≈ {{crypto}} {{symbol}}</small>
@@ -125,20 +131,14 @@
           <h2 class="text-muted" style="margin-left: 20px">Total: </h2>
           <h2 style="margin-right: 20px; font-weight: 400; font-size: 18px; color: green;">${{total}}0</h2>
       </div>
-                      <div class="row justify-content-between">
-                          {% csrf_token %}
-                          <a href="{% url 'crypto' c %}">
-                <button type="button" class="btns"  style="background-color: red; margin-left: 20px; margin-top: 5px; min-width: 40%">
-              <span class="btn-inner--text" style=" font-size: 16px; color: white;">Cancel</span>
-          </button>
-                          </a>
+
                           <a href="{% url 'check' %}">
-                       <button type="button" class="btns"  style=" background-color: blue; margin-right: 20px; margin-top: 5px; min-width: 40%">
+                       <button type="button" class="btns btns-success"  style="margin-top: 5px; min-width: 100%">
               <span class="btn-inner--text" style=" font-size: 16px; color: white;">Confirm</span>
           </button>
                           </a>
                     </div>
-  </div>
+
 </div>
 
 
@@ -147,6 +147,14 @@
     </div><!-- .container -->
 </div><!-- End Section -->
 
+    <div class="section section section-pad-md no-pb">
+    <div class=""></div>
+    <div class="container">
+        <div class="row justify-content-center ">
+            <label class="text-muted"> © 2020 by Bitchedda</label>
+        </div>
+    </div>
+</div>
 
 
 

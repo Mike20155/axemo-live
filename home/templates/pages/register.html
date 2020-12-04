@@ -106,6 +106,8 @@
         </svg>
       </div>
     </div>
+
+
     <!-- Page content -->
     <div class="container mt--8 pb-5">
       <!-- Table -->
@@ -118,13 +120,23 @@
                   <small>Fields marked with "</small><small style="color: red;">*</small><small>" are required</small>
                 </div>
                 <div class="column">
-                  <small style="color: red;">{{message}}</small>
-                  <small style="color: red;">{{error}}</small>
+               <div class="alert alert-danger alert-dismissible fade show" role="alert">{{message}}
+                 </div>
                 </div>
               </div>
               <form role="form" action="{% url 'register' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
+                  <div class="input-group input-group-merge input-group-alternative mb-3">
+
+                    <div class="input-group-prepend">
+                      <label style="color: red;">*</label>
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                    </div>
+                    <input class="form-control" type="text" name="username" id="username" value="{{ username }}" placeholder="first name" required/>
+                  </div>
+                </div>
+                                <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
 
                     <div class="input-group-prepend">
@@ -162,6 +174,15 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <div class="input-group input-group-merge input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <label style="color: red;">*</label>
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input class="form-control" type="password" name="password2" id="password2" value="{{ password_2 }}" placeholder="Confirm password" required/>
+                  </div>
+                </div>
+                                <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <div class="input-group-prepend">
                       <label style="color: red;">*</label>

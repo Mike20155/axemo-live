@@ -49,56 +49,78 @@
     <!-- Start Section -->
 <div class="section section-pad-md section-bg" id="faq">
     <div class="container">
-        <div class="row justify-content-center" style="margin-top: 150px;">
+        <div class="row justify-content-center" style="margin-top: 70px;">
             <div class="col-md-7">
-                    <div class="row justify-content-center text-center">
-        <h1 style="font-size: 25px;">Sign in to BitChedda </h1>
-    </div>
-              <div class="text-center text-muted mb-4">
-                  <label style="color: red; margin-top: 15px;">{{message}}</label>
-                <small style="color: yellow; margin-top: 15px;">{{timeout}}</small>
-              </div>
+                <div class="row justify-content-center text-center">
+                                      <h1 style="font-size: 30px; font-weight: 300;">Log in to your account </h1>
+                </div>
+                <div class="card " style="margin-top: 30px;">
+                    <div class="card-body">
+<div class="row justify-content-center text-center">
+                  <label style="color: red;">{{message}}</label>
+</div>
 
-   <form role="form"  action="{% url 'login' %}" method="post">
-                {% csrf_token %}
+         <form role="form" class="form-message text-center" action="{% url 'login' %}"  method="post">
+                    {% csrf_token %}
 
-  <div class="form-group " style="margin-top: 20px">
-      <div class="row justify-content-center">
-    <input  class="form-control" style="margin-top: 0px; max-width: 70%;  min-height: 45px;"  type="text" name="username" id="username" placeholder="Username" required>
-  </div>
-       </div>
+             <div class="input-field animated" data-animate="fadeInUp" data-delay=".2">
+                 <div class="row justify-content-center">
+                     <h1 style="font-weight: 300; font-size: 20px;  margin-top: 32px;"><i class="far fa-envelope"></i></h1><input name="email" id="email"
+                                                                  type="text" class="input-line required"
+                                                                  style="max-width:80%;font-size: 15px;" placeholder="Email"
+                                                                  required></div>
+             </div>
 
-  <div class="form-group">
-      <div class="row justify-content-center">
-    <input type="password" style=" margin-top: 0px; max-width: 70%; min-height: 45px;" class="form-control" name="password" id="password" placeholder="Password" required>
-          <div class="justify-content-between">
-          <a href=""><label style="margin-top: 50px; color: blue; margin-left: 70px; font-weight: 500; position: absolute; left: 1px; ">Forgot password?</label></a>
-          </div>
 
-  </div>
+               <div class="input-field animated" data-animate="fadeInUp" data-delay=".2">
+                 <div class="row justify-content-center">
+                     <h1 style="font-weight: 300; font-size: 20px;  margin-top: 32px;"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+width="23" height="23"
+viewBox="0 0 171 171"
+style=" fill:#000000;"><g transform="translate(10.9215,10.9215) scale(0.873,0.873)"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="none" stroke-linecap="butt" stroke-linejoin="none" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g fill="#ffffff" stroke="#2b2b2b" stroke-width="25" stroke-linejoin="round"><path d="M124.96154,39.46154v26.30769c14.46409,0 26.30769,11.8436 26.30769,26.30769v52.61538c0,14.46409 -11.8436,26.30769 -26.30769,26.30769h-78.92308c-14.46409,0 -26.30769,-11.8436 -26.30769,-26.30769v-52.61538c0,-14.46409 11.8436,-26.30769 26.30769,-26.30769v-26.30769c0,-21.86313 17.59841,-39.46154 39.46154,-39.46154c21.86313,0 39.46154,17.59841 39.46154,39.46154zM59.19231,39.46154v26.30769h52.61538v-26.30769c0,-14.97792 -11.32978,-26.30769 -26.30769,-26.30769c-14.97792,0 -26.30769,11.32978 -26.30769,26.30769zM72.34615,111.80769c0,4.59871 2.6205,9.12034 6.57692,11.09856v15.20913c0,3.95643 2.6205,6.57692 6.57692,6.57692c3.95643,0 6.57692,-2.62049 6.57692,-6.57692v-15.20913c3.95643,-1.97821 6.57692,-6.49985 6.57692,-11.09856c0,-7.24489 -5.90895,-13.15385 -13.15385,-13.15385c-7.24489,0 -13.15385,5.90896 -13.15385,13.15385z"></path></g><path d="M0,171.99219v-171.99219h171.99219v171.99219z" fill="none" stroke="none" stroke-width="1" stroke-linejoin="miter"></path><g fill="#ffffff" stroke="none" stroke-width="1" stroke-linejoin="miter"><path d="M85.5,0c-21.86313,0 -39.46154,17.59841 -39.46154,39.46154v26.30769c-14.46409,0 -26.30769,11.8436 -26.30769,26.30769v52.61538c0,14.46409 11.8436,26.30769 26.30769,26.30769h78.92308c14.46409,0 26.30769,-11.8436 26.30769,-26.30769v-52.61538c0,-14.46409 -11.8436,-26.30769 -26.30769,-26.30769v-26.30769c0,-21.86313 -17.59841,-39.46154 -39.46154,-39.46154zM85.5,13.15385c14.97792,0 26.30769,11.32978 26.30769,26.30769v26.30769h-52.61538v-26.30769c0,-14.97792 11.32978,-26.30769 26.30769,-26.30769zM85.5,98.65385c7.2449,0 13.15385,5.90896 13.15385,13.15385c0,4.59871 -2.62049,9.12034 -6.57692,11.09856v15.20913c0,3.95643 -2.62049,6.57692 -6.57692,6.57692c-3.95643,0 -6.57692,-2.62049 -6.57692,-6.57692v-15.20913c-3.95643,-1.97821 -6.57692,-6.49985 -6.57692,-11.09856c0,-7.24489 5.90896,-13.15385 13.15385,-13.15385z"></path></g><path d="" fill="none" stroke="none" stroke-width="1" stroke-linejoin="miter"></path></g></g></svg></h1><input name="password" id="password-field"
+                                                                  type="password" class="input-line required"
+                                                                  style="max-width:75%; font-size: 15px;" placeholder="Password"
+                                                                  required>
+                             <i toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password" style="margin-top: 40px;"></i>
+                 </div>
+               </div>
+                   <a href=""><label style="color: blue; font-weight: 500; position: absolute; left: 60px; margin-top: 10px;">Forgot password?</label></a>
 
-       </div>
-   <div class="text-center" style="margin-top: 40px;">
 
-          <button type="submit" class="btns btns-success"  style=" margin-top: 5px; min-width: 70%;">
-              <span class="btn-inner--text" style="font-size: 16px; color: white; ">Sign in</span>
-          </button>
-   </div>
 
-</form>
-                <div class="row justify-content-center" style="margin-top: 10px">
 
-                <label style="margin-right: 20px; font-weight: 500;"> Dont have an account? <a href="{% url 'register' %}"><label style="color: blue;">sign up here</label></a></label>
-            </div>
+             <div class="text-center" style="margin-top: 70px;">
+                 <button type="submit" class="btns "  style="background-color:#0262f6; min-width: 80%;">
+                     <span class="btn-inner--text" style="font-size: 16px; color: white; ">Login</span>
+                 </button>
+             </div>
+         </form>
+
+      <div class="row justify-content-center" style="margin-top: 10px">
+          <label style="margin-right: 20px; font-weight: 500;"> Don't have an account? <a href="{% url 'register' %}"><label style="color: blue;">sign-up in here</label></a></label>
+      </div>
+                    </div>
+                </div>
             </div><!-- .col -->
         </div><!-- .row -->
     </div><!-- .container -->
 </div><!-- End Section -->
 
 
+    <div class="section section section-pad-md no-pb">
+    <div class=""></div>
+    <div class="container">
+        <div class="row justify-content-center ">
+            <label class="text-muted"> © 2020 by Bitchedda</label>
+        </div>
+    </div>
+</div>
+
+
 
     <!-- Preloader End --><!-- JavaScript (include all script here) -->
 <script src="{% static 'statics_land/assets/js/jquery.bundlee222.js' %}"></script>
 <script src="{% static 'statics_land/assets/js/scripte222.js' %}"></script>
+        <script src="{% static 'statics_land/assets/js/function.js' %}"></script>
 </body>
 </html>

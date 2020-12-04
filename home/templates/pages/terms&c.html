@@ -24,13 +24,11 @@
 <body class="theme-dark io-zinnia" data-spy="scroll" data-target="#mainnav" data-offset="80"><!-- Header -->
 <header class="site-header is-sticky"><!-- Place Particle Js -->
     <div id="particles-js" class="particles-container particles-js"></div><!-- Navbar -->
-    <div class="navbar navbar-full navbar-expand-lg is-transparent" id="mainnav"><a class="navbar-brand animated"
+      <div class="navbar navbar-full navbar-expand-lg is-transparent" id="mainnav" style=""><a class="navbar-brand animated"
                                                                                     data-animate="fadeInDown"
                                                                                     data-delay=".65"
-                                                                                    href="{% url 'home_page' %}"><img
-            class="logo logo-dark" alt="logo" src="{% static 'statics_land/images/logo.png' %}" srcset="images/logo2x.png 2x"><img
-            class="logo logo-light" alt="logo" src="{% static 'statics_land/images/logo-full-white.png' %}"
-            srcset="images/logo-full-white2x.png 2x"></a>
+                                                                                    href="{% url 'dash' %}">
+        <h3 style="color: Blue;">BitChedda</h3></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"><span
                 class="navbar-toggler-icon"><span class="ti ti-align-justify"></span></span></button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarToggle">
@@ -60,8 +58,7 @@
                                                  data-delay=".1"><img src="{% static 'assets/img/brand/terms.jpg' %}"></div>
 
                     <div class="section-head-s7"><h6 class="section-title-s1 animated text-center" data-animate="fadeInUp"
-                                                 data-delay=".1" style="margin-top: 40px;">"Agreement"
-Effective March 21, 2020</h6>
+                                                 data-delay=".1" style="margin-top: 40px;"></h6>
                     </div>
 <div class="section section-pad about-section no-pb section-bg" id="acceptance">
                                         <div class="section-head-s7"><h3 class="section-title-s7 animated" data-animate="fadeInUp"
@@ -179,15 +176,7 @@ This company, advertisers or licensors under no circumstance will be liable for 
 
 
 
-<div class="section footer-section section-pad-md no-pb">
-    <div class="ui-shape ui-shape-light ui-shape-footer"></div>
-    <div class="container">
-        <div class="row justify-content-center ">
-            <label class="text-muted"> © 2020 by Bitchedda</label>
 
-        </div>
-    </div>
-</div>
 <div id="preloader">
     <div id="loader"></div>
     <div class="loader-section loader-top"></div>

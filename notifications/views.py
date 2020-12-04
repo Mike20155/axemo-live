@@ -13,6 +13,7 @@ import hashlib
 import datetime
 import json
 
+
 # Create your views here.
 
 
@@ -37,8 +38,6 @@ def CoinbaseNotification(request):
 
     print(notify)
     return HttpResponse(status=status.HTTP_200_OK)
-
-
 
 
 

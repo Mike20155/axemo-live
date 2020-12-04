@@ -7,7 +7,6 @@ import random
 from .models import DebitTransaction, Address
 
 
-# make transaction here
 key = "qllinMZsWKJxMbm1"
 secret = "O8166FUvpXgZk5XowalRE8cP0tVXRWkT"
 
@@ -36,6 +35,7 @@ def get_address(user, cu):
     address_saver = Address(user=user, address=address['address'], currency=cu)
     address_saver.save()
     return address['address']
+
 
 
 def bal_converter(x):

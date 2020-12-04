@@ -239,13 +239,12 @@ def send(request):
     print(stats)
     print(p)
 
-
     page = 'pages/send.html'
     template = loader.get_template(page)
 
     request.session['fiat_balance'] = balance
 
-    context = {'crypt': crypt,  'fiat': balance,
+    context = {'crypt': crypt,  'fiat': balance, 'c': currency,
                'currency': currency.capitalize(),  'symbol': symbol, 'p': p, 'status': stats, 'message': message}
 
     return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
@@ -363,7 +362,7 @@ def check(request):
 
                         except Exception as e:
                             currency = request.session['currency']
-                            request.session['message'] = {'a': f'something went wrong, please try again later 1'}
+                            request.session['message'] = {'a': f'something went wrong, please try again later '}
                             return redirect(send, currency)
 
                     else:
@@ -441,30 +440,45 @@ def check(request):
                         amount = str("{:.8f}".format(amount))
                         message = {'a': 'You have transferred', 'b': f'{amount} {symbol}', 'c': to,
                                    'd': 'successfully'}
-                        request.session['message'] = message
-                        request.session['current_status'] = 'success'
-                        return redirect(crypto, currency)
+                        currency =  request.session['currency']
+
+                        context = {'message': message, 'p': 'message', 'status': 'success', 'c': currency}
+
+                        page = 'pages/result.html'
+                        template = loader.get_template(page)
+
+                        return HttpResponse(template.render(context, request),
+                                            status=status.HTTP_200_OK)
 
                     else:
-                        currency = request.session['currency']
-                        request.session['message'] = {'a': f'something went wrong, please try again later 2'}
-                        return redirect(crypto, currency)
+                        message = {'a': f'something went wrong, please try again later'}
+                        page = 'pages/result.html'
+                        template = loader.get_template(page)
+                        context = {'message': message, 'p': 1, 'status': 'failed', 'c': currency}
+
+                        return HttpResponse(template.render(context, request),
+                                            status=status.HTTP_200_OK)
 
                 else:
                     fiat = request.session['fiat_balance']
                     request.session['message'] = {'a': f'Insufficient balance! you have only ', 'b': fiat,
-                                                  'c': 'available 2'}
+                                                  'c': 'available '}
                     return redirect(send)
             else:
-                request.session['message'] = {'a': 'something went wrong. please cross-check your entries and try again 3'}
+                request.session['message'] = {'a': 'something went wrong. please cross-check your entries and try again '}
                 return redirect(send)
 
         else:
-            request.session['message'] = {'a': 'something went wrong. please cross-check your entries and try again 4'}
+            request.session['message'] = {'a': 'something went wrong. please cross-check your entries and try again '}
             return redirect(send)
 
     except Exception as e:
         print(e)
+        message = {'a': f'something went wrong, please try again later'}
+        page = 'pages/result.html'
+        template = loader.get_template(page)
         currency = request.session['currency']
-        request.session['message'] = {'a': f'something went wrong, please try again later 5'}
-        return redirect(crypto, currency)
+        context = {'message': message, 'p': 1, 'status': 'failed', 'c': currency}
+
+        return HttpResponse(template.render(context, request),
+                            status=status.HTTP_200_OK)

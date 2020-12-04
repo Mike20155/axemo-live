@@ -128,6 +128,8 @@ def investments(user):
             total_payment = (140/100)*fiat_cap
             percentage = (paid_fiat/total_payment)*100
 
+            percentage = str("{:.1f}".format(percentage))
+
             data = {'start': start, 'percentage': percentage, 'fiat': fiat_capital, 'crypto': crypto_capital, 'week': week,
                     'total_paid_crypto': total_paid_crypto, 'total_paid_fiat': total_paid_fiat, 'total_payment': total_payment,'currency': currency, 'id': id}
 

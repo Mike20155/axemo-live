@@ -49,8 +49,14 @@
 
         <div class="container">
             <div class="row ">
+                     <div class="row" style="min-width: 90%; margin-left: 5px;">
+                    <a href="{% url 'dash' %}">
+                        <i class="fas fa-angle-left"></i>
+                <label style="color: blue;  font-size: 20px">Back</label>
+                        </a>
+                    </div>
                 <div class="col-md-7">
-                    <div class="col" style="margin-top: 20px;">
+                    <div class="col" style="">
                     <h2 style="font-size: 30px; font-weight: 400; margin-bottom: -5px;">{% if currency == 'Bitcoin' %}{{btc}} BTC
                   {% elif currency == 'Etherum' %}{{eth}} ETH{% elif currency == 'Litecoin' %}{{ltc}} LTC
                   {% elif currency == 'Bitcoincash' %}{{bch}} BCH
@@ -93,25 +99,6 @@
             <div class="row ">
                 <div class="col-md-7">
                     <div class="text center" style="margin-top: 30px;">
-                   {%if status != 'success' %}
-                       {%if p > 0 %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">{{message.a}}
-                            <strong> {{message.b}} </strong>
-                            {{message.c}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-                        {% endif %}
-                    {% endif %}
-                        {%if status == 'success' %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">{{message.a}}
-                            <strong> {{message.b}} </strong>to<strong> {{message.c}} </strong>
-                            {{message.d}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>          {% endif %}
                     </div>
                     <div class="col" style="margin-top: 40px;">
                     <h2 style="font-size: 25px; font-weight: 500; margin-bottom: 20px;">History</h2>
@@ -119,7 +106,7 @@
                       {% for x in history %}
                       {%if x.type == "Credit" %}
                     <div class="row justify-content-between">
-                    <span class="ti ti-arrow-down" style="color: green; font-size: 20px; margin-left: 20px;"> Recieved Bitcoin</span>
+                    <span class="ti ti-arrow-down" style="color: green; font-size: 20px; margin-left: 20px;"> Recieved {{currency}}</span>
                         <h2 style="margin-right: 20px; font-weight: 350;">{{x.amount}} {% if currency == 'Bitcoin' %}BTC
                                   {% elif currency == 'Etherum' %}ETH {% elif currency == 'Litecoin' %}LTC
                                   {% elif currency == 'Bitcoincash' %}BCH
@@ -138,7 +125,7 @@
 
                      {% elif x.type == "Debit"%}
                     <div class="row justify-content-between">
-                    <span class="ti ti-arrow-up" style="color: red; font-size: 20px; margin-left: 20px;"> Sent Bitcoin</span>
+                    <span class="ti ti-arrow-up" style="color: red; font-size: 20px; margin-left: 20px;"> Sent {{currency}}</span>
                         <h2 style="margin-right: 20px; font-weight: 350;">-{{x.amount}} {% if currency == 'Bitcoin' %}BTC
                                   {% elif currency == 'Etherum' %}ETH {% elif currency == 'Litecoin' %}LTC
                                   {% elif currency == 'Bitcoincash' %}BCH
@@ -186,15 +173,15 @@
 
 
 
-<div class="section footer-section section-pad-md no-pb">
-    <div class="ui-shape ui-shape-light ui-shape-footer"></div>
+<div class="section section section-pad-md no-pb">
+    <div class=""></div>
     <div class="container">
         <div class="row justify-content-center ">
             <label class="text-muted"> © 2020 by Bitchedda</label>
-
         </div>
     </div>
 </div>
+
 
 <div id="preloader">
     <div id="loader"></div>
