@@ -158,11 +158,12 @@ def register(request):
             print(request.POST)
 
             if len(password_1) < 8:
-                context = {'message': 'password must contain 8 or more characters', 'username': first_name, 'last_name':
-                    last_name, 'email': email, 'referral': ref}
+                context = {'message': 'password must contain 8 or more characters', 'first_name': first_name,
+                           'last_name': last_name, 'email': email, 'ref': ref}
                 page = 'pages/sign_up.html'
                 template = loader.get_template(page)
                 return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+
             if password_1 != password_2:
                 context = {'message': 'Passwords do not match. please enter same password twice',
                            'username': first_name, 'last_name':
@@ -188,20 +189,7 @@ def register(request):
                     request.session['registration_details'] = {'first_name': first_name, 'last_name': last_name,
                                                                'email': email, 'username': username, 'ref': ref,
                                                                'password': password_1}
-
-                    otp = '1234'
-                    request.session['OTP'] = otp
-
-                    send_mail(
-                        'Confirm OTP',
-                        f'Your OTP is {otp}. Please do not share this code with anyone else. '
-                        'If did not request for this OTP please ignore',
-                        'BitChedda',
-                        ['olumichael2015@outlook.com'],
-                        fail_silently=False,
-                    )
-
-                    print('otp sent')
+                    request.session['email'] = 'olumichael2015@outlook.com'
 
                     return redirect(otp_validator)
             else:
@@ -224,6 +212,23 @@ def register(request):
 @api_view(['GET', 'POST'])
 def otp_validator(request):
     if request.method == 'GET':
+        request.session['email'] = 'olumichael2015@outlook.com'
+
+        otp = '1234'
+        request.session['OTP'] = otp
+
+        email = request.session['email']
+
+        title = 'Confirm OTP'
+        message = f'Your OTP is {otp}. Please do not share this code ' \
+                  f'with anyone else. If did not request for this OTP please ignore'
+        header = 'BitChedda'
+        email = [email]
+
+        print('sending email...')
+        send_mail(title, message, header, email, fail_silently=False)
+        print('email sent')
+
         page = 'pages/otp_.html'
         template = loader.get_template(page)
         email = request.session['registration_details']['email']
@@ -335,6 +340,6 @@ def logout_view(request):
 
 @api_view(['GET'])
 def test(request):
-    page = 'pages/result.html'
+    page = 'pages/test.html'
     template = loader.get_template(page)
     return HttpResponse(template.render({'c': 'BITCOIN'}, request), status=status.HTTP_200_OK)

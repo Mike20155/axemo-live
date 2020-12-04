@@ -1,21 +1,16 @@
 from django.test import TestCase
 import re
-from django.http import HttpResponse
-from rest_framework import status
-from django.template import loader
-from rest_framework.decorators import api_view
+from django.core.mail import send_mail
 
+otp = '1234'
 
-@api_view(['GET'])
-def index(request):
+email = 'olumichael2015@outlook.com'
+title = 'Confirm OTP'
+message = f'Your OTP is {otp}. Please do not share this code ' \
+          f'with anyone else. If did not request for this OTP please ignore'
+header = 'BitChedda'
+email = [email]
 
-    search_post = request.GET.get('search')
-
-    if search_post:
-        posts = 'database objects'
-    else:
-        posts = "something_else"
-
-    page = 'index.html'
-    template = loader.get_template(page)
-    return HttpResponse(template.render({'posts': posts}, request), status=status.HTTP_200_OK)
+print('sending email...')
+send_mail(title, message, header, email, fail_silently=False)
+print('email sent')
