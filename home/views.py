@@ -222,7 +222,7 @@ def otp_validator(request):
         title = 'Confirm OTP'
         message = f'Your OTP is {otp}. Please do not share this code ' \
                   f'with anyone else. If did not request for this OTP please ignore'
-        header = 'BitChedda'
+        header = 'OTP@BitChedda.com'
         email = [email]
 
         print('sending email...')
