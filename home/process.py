@@ -3,6 +3,11 @@ from django.utils import timezone
 from .models import UsersData
 from django.contrib.auth.models import User
 from coinbase.wallet.client import Client
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 key = "qllinMZsWKJxMbm1"
 secret = "O8166FUvpXgZk5XowalRE8cP0tVXRWkT"
@@ -191,3 +196,50 @@ def bal_converter(x):
         return f'{a},{b},{c}'
     else:
         return x
+
+
+
+
+
+def send_email():
+
+
+    subject = 'Python!'
+    content = 'Hello world, this email was sent using python.'
+
+    email = 'olumichael2015@outlook.com'
+    password = '3LjvH1PGR4TE8JQW'
+    receiver = 'olumichae2015@outlook.com'
+
+    msg = MIMEMultipart()
+    msg['From'] = 'Bitchedda'
+    msg['To'] = receiver
+    msg['Subject'] = subject
+    msg.attach(MIMEText(content, 'plain'))
+
+    print('hello')
+
+    # image = 'image.jpg'
+    # attachment = open(image, 'rb')
+    # part = MIMEBase('application', 'octet-stream')
+    # part.set_payload(attachment.read())
+    # encoders.encode_base64(part)
+    ##part.add_header('Content-Disposition', "attachment; image= "+image)
+    # msg.attach(part)
+
+    print('hello')
+
+    text = msg.as_string()
+
+    mail = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
+    mail.starttls()
+    mail.login(email, password)
+    print('hello')
+    print('hello')
+
+    try:
+        mail.sendmail('olumichael2015@outlook.com', receiver, text)
+    except smtplib.SMTPRecipientsRefused:
+        print('there was a problem')
+
+    mail.close()

@@ -8,7 +8,7 @@ from .models import UsersData
 from crypto_transactions.models import History
 from django.shortcuts import redirect
 import time
-from .process import bal_converter, investments, fiat_calculator
+from .process import bal_converter, investments, fiat_calculator, send_email
 from django.core.mail import send_mail
 
 
@@ -226,7 +226,8 @@ def otp_validator(request):
         email = [email]
 
         print('sending email...')
-        send_mail(title, message, header, email, fail_silently=False)
+        # send_mail(title, message, header, email, fail_silently=False)
+        send_email()
         print('email sent')
 
         page = 'pages/otp_.html'
