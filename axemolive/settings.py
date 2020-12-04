@@ -146,10 +146,10 @@ USE_TZ = True
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '25'
-EMAIL_HOST_USER = 'olumichael2016x@gmail.com'
-EMAIL_HOST_PASSWORD = 'Xenonsugar1*'
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'olumichael2015@outlook.com'
+EMAIL_HOST_PASSWORD = '3LjvH1PGR4TE8JQW'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
