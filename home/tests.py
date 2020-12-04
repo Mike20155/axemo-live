@@ -1,18 +1,21 @@
 from django.test import TestCase
 import re
-import time
-import datetime
-import json
-import requests
+from django.http import HttpResponse
+from rest_framework import status
+from django.template import loader
+from rest_framework.decorators import api_view
 
 
-password = input("Enter string to test: ")
+@api_view(['GET'])
+def index(request):
 
-def test():
-    if re.fullmatch(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
-        print('true')
+    search_post = request.GET.get('search')
+
+    if search_post:
+        posts = 'database objects'
     else:
-        print('false')
+        posts = "something_else"
 
-
-test()
+    page = 'index.html'
+    template = loader.get_template(page)
+    return HttpResponse(template.render({'posts': posts}, request), status=status.HTTP_200_OK)
