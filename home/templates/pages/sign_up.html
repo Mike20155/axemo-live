@@ -177,7 +177,16 @@ style=" fill:#000000;"><g transform="translate(10.9215,10.9215) scale(0.873,0.87
 </div><!-- Preloader End --><!-- JavaScript (include all script here) -->
 <script src="{% static 'statics_land/assets/js/jquery.bundlee222.js' %}"></script>
 <script src="{% static 'statics_land/assets/js/scripte222.js' %}"></script>
-    <script src="{% static 'statics_land/assets/js/function.js' %}"></script>
+    <script>$(".toggle-password").click(function() {
+
+  $(this).toggleClass("fa-eye fa-eye-slash");
+  var input = $($(this).attr("toggle"));
+  if (input.attr("type") == "password") {
+    input.attr("type", "text");
+  } else {
+    input.attr("type", "password");
+  }
+});</script>
 
 </body>
 </html>

@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from rest_framework import status
 from django.template import loader
-from .models import RegForm
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -20,7 +19,6 @@ from django.core.mail import send_mail
 def home_page(request):
     page = 'landing.html'
     template = loader.get_template(page)
-    user = User.objects.all()
     logout(request)
     return HttpResponse(template.render({'header': 'TESTING ABOUT VIEW'}, request), status=status.HTTP_200_OK)
 
@@ -42,7 +40,6 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if authenticate(username=username, password=password):
                 login(request, user)
-
 
                 request.session['current_user'] = username
                 request.session['user_password'] = password
@@ -68,7 +65,6 @@ def login_user(request):
 
 @api_view(['GET', 'POST'])
 def dash(request):
-    print('pass')
     try:
         request.session['session_timeout'] = time.time() + 100000
         if request.session['session_timeout'] > time.time():
