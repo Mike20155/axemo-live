@@ -227,7 +227,7 @@ def otp_validator(request):
 
         print('sending email...')
         # send_mail(title, message, header, email, fail_silently=False)
-        send_email()
+        # send_email()
         print('email sent')
 
         page = 'pages/otp_.html'
