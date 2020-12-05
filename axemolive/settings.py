@@ -29,13 +29,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'c7p^gzi4mip9zm#62l4&xq^*y9hs-npfz2lc1y7&w^w#xu37g2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '192.168.43.83',
     '127.0.0.1',
     '192.168.43.117'
     'hidden-hollows-00126.herokuapp.com'
+    'www.bitchedda.com'
 ]
 
 
