@@ -12,7 +12,18 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
+import dotenv
 import dj_database_url
+from dotenv import load_dotenv
+load_dotenv()
+
+# OR, the same with increased verbosity
+load_dotenv(verbose=True)
+
+# OR, explicitly providing path to '.env'
+from pathlib import Path  # Python 3.6+ only
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 
 
@@ -26,7 +37,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c7p^gzi4mip9zm#62l4&xq^*y9hs-npfz2lc1y7&w^w#xu37g2'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,6 +60,7 @@ INSTALLED_APPS = [
     'deposit_withdraw.apps.DepositWithdrawConfig',
     'investments.apps.InvestmentsConfig',
     'notifications.apps.NotificationsConfig',
+    'support.apps.SupportConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -96,12 +108,12 @@ WSGI_APPLICATION = 'axemolive.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd3skj8064trmai',
-        'HOST':  'ec2-35-174-88-65.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER': 'spxakgvtmqpssy',
-        'PASSWORD': 'f38fb4fe5022e2c7e2441927ddcaf007e70d182c5999dc951b88d0000f3d1372',
+        'ENGINE': os.getenv("DB_ENGINE"),
+        'NAME': os.getenv("DB_NAME"),
+        'HOST':  os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
 
     }
 }
@@ -146,11 +158,11 @@ USE_L10N = True
 USE_TZ = True
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-relay.sendinblue.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'olumichael2015@outlook.com'
-EMAIL_HOST_PASSWORD = '3LjvH1PGR4TE8JQW'
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 

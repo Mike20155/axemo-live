@@ -6,11 +6,13 @@ from coinbase.wallet.client import Client
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
 from email.mime.base import MIMEBase
 from email import encoders
 
-key = "qllinMZsWKJxMbm1"
-secret = "O8166FUvpXgZk5XowalRE8cP0tVXRWkT"
+key = os.getenv("C_KEY")
+secret = os.getenv("C_SECRET")
+
 client = Client(key, secret)
 
 

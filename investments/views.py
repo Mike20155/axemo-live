@@ -190,14 +190,14 @@ def confirm_invest(request):
                             request.session['message'] = {'a': f'Insufficient balance! you have only ',
                                                           'b': f'${fiat}',
                                                           'c': 'available'}
-                            return redirect('send')
+                            return redirect('invest_amount')
                     else:
                         request.session['message'] = {'a': f'Invalid amount'}
-                        return redirect('send')
+                        return redirect('invest_amount')
 
                 else:
                     request.session['message'] = {'a': f'Invalid amount'}
-                    return redirect('send')
+                    return redirect('invest_amount')
 
             except Exception as e:
                 print(e)

@@ -55,7 +55,7 @@
                 <label style="color: blue;  font-size: 20px">Back</label>
                         </a>
                     </div>
-                <div class="col-md-7">
+                <div class="col">
                     <div class="col" style="">
                     <h2 style="font-size: 30px; font-weight: 400; margin-bottom: -5px;">{% if currency == 'Bitcoin' %}{{btc}} BTC
                   {% elif currency == 'Etherum' %}{{eth}} ETH{% elif currency == 'Litecoin' %}{{ltc}} LTC
@@ -77,16 +77,16 @@
 
         <div class="container">
             <div class="row ">
-                <div class="col-md-7">
+                <div class="col">
                     <div class="col justify-content-center">
                         <a href="{% url 'send' %}">
-                            <button type="button" class="btns btns-success"  style=" min-width: 104%; min-height: 54px">
+                            <button type="button" class="btns btns-success" style="border-color:#b4e4a1; min-width: 104%; min-height: 54px">
                                                     <span class="btn-inner--text" style="font-size: 16px; color: white;">Send</span>
                                                 </button>
                         </a>
 
                         <a href="{% url 'receive' %}">
-                            <button type="button" class="btns"  style="background-color:#0262f6; margin-top: 10px; min-width: 104%; min-height: 54px">
+                            <button type="button" class="btns"  style="background-color:#0262f6; border-color:#88cde0; margin-top: 10px; min-width: 104%; min-height: 54px">
                                                     <span class="btn-inner--text" style="font-size: 16px; color: white;">Receive</span>
                                                 </button>
                         </a>
@@ -97,7 +97,7 @@
     </div>
             <div class="container">
             <div class="row ">
-                <div class="col-md-7">
+                <div class="col">
                     <div class="text center" style="margin-top: 30px;">
                     </div>
                     <div class="col" style="margin-top: 40px;">

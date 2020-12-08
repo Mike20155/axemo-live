@@ -332,6 +332,8 @@ def check(request):
                                             total = str("{:.1f}".format(total))
                                             total = bal_converter(total)
 
+                                            bal = (str("{:.8f}".format(bal)))
+
                                             context = {'to': to, 'amount': amount, 'bc_fee': bc_fee, 'bl_fee': bl_fee,
                                                        'total': total, 'crypto': bal, 'desc': 'desc', 'c': currency,
                                                        'symbol': symbol, 'user': str(request.user), 'time': time_now,
@@ -430,6 +432,7 @@ def check(request):
                         platform = 'blockchain'
 
                     if platform == 'blockchain':
+                        print('platform is bockchain')
                         response = coinbase(params, to)
 
                     elif platform == 'axemo':

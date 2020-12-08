@@ -4,16 +4,17 @@ from django.contrib.auth.models import User
 from home.models import UsersData
 import string
 import random
+import os
 from .models import DebitTransaction, Address
 
 
-key = "qllinMZsWKJxMbm1"
-secret = "O8166FUvpXgZk5XowalRE8cP0tVXRWkT"
+key = os.getenv("C_KEY")
+secret = os.getenv("C_SECRET")
 
-btc_id ="98d51393-b7bf-5381-b727-21200c515708"
-eth_id = "181fc56c-73d6-568e-ab6d-1c0aedc9f333"
-ltc_id = "7c31f848-dc67-5510-8ff4-0e5e74a700c6"
-bch_id = "b38fa818-27f2-5fe2-822f-0d24ab658ee1"
+btc_id = os.getenv("BTC_ID")
+eth_id = os.getenv("ETH_ID")
+ltc_id = os.getenv("LTC_ID")
+bch_id = os.getenv("BCH_ID")
 
 client = Client(key, secret)
 
@@ -35,7 +36,6 @@ def get_address(user, cu):
     address_saver = Address(user=user, address=address['address'], currency=cu)
     address_saver.save()
     return address['address']
-
 
 
 def bal_converter(x):
@@ -71,14 +71,14 @@ def bal_converter(x):
 
 
 def coinbase(param, to):
-    crypt = param['bal']
-    param['amount'] = crypt
+    print(param)
+    crypt = param['crypto']
+    param['amount'] = float((str("{:.8f}".format(crypt))))
+    print(param['amount'])
+    print(type(param['amount']))
 
     try:
-        # tx = ['completed']
         print('sending to coinbase....')
-        client = Client(key, secret)
-        print('validating client....')
         tx = client.send_money(btc_id, to=param['to'], amount=float(param['amount']), currency=param['currency'],
                                desc=param['desc'])
         print(tx)
@@ -111,8 +111,8 @@ def coinbase(param, to):
             return 'success'
         else:
             return 'transaction failed'
-    except IndexError as e:
-        print('error'*10)
+    except Exception as e:
+        print(e)
         return str(e)
 
 

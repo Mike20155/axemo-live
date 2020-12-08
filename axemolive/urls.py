@@ -26,5 +26,6 @@ urlpatterns = [
     path('affiliate/', include('affiliate.urls')),
     path('fiat/', include('deposit_withdraw.urls')),
     path('invest/', include('investments.urls')),
-    path('webhooks/', include('notifications.urls'))
+    path('webhooks/', include('notifications.urls')),
+    path('support/', include('support.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

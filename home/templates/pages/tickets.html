@@ -36,7 +36,7 @@
                   <li class="nav-item"><a class="nav-link menu-link" href="{% url 'dash' %}" style="color: white;">Dashboard<span
                         class="sr-only">(current)</span></a></li>
                 <li class="nav-item"><a class="nav-link menu-link" href="{% url 'profile' %}" style="color: white;">My Profile</a></li>
-                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'help' %}" style="color: white;">Support</a></li>
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'home_page' %}" style="color: white;">Support</a></li>
                 <li class="nav-item"><a class="nav-link menu-link" href="{% url 'logout' %}" style="color: white;">Logout</a></li>
             </ul>
 
@@ -44,49 +44,29 @@
     </div><!-- End Navbar --><!-- Banner/Slider -->
 
 
+
     <!-- Start Section -->
 <div class="section section-pad-md section-bg" id="faq">
     <div class="container">
+                <a href="">
+                        <i class="fas fa-angle-left"></i>
+                <label style="color: blue;  font-size: 20px">Back</label>
+                        </a>
         <div class="row justify-content-center text-center">
             <div class="col-md-7">
-                {%if status != 'success' %}
-                {%if p > 0 %}
-
-                <h1 style="color:red; font-weight: 400; font-size: 40px">FAILED!</h1>
-                <img src="https://img.icons8.com/fluent/150/000000/warning-shield.png"/>
-
-                {% endif %}
-                {% endif %}
-
-                {%if status == 'success' %}
-
-                <h1 style="color: green; font-weight: 400; font-size: 40px">SUCCESS!</h1>
-                <img src="https://img.icons8.com/cute-clipart/150/000000/checked-checkbox.png"/>
-
-                {% endif %}
-            </div><!-- .col -->
-        </div><!-- .row -->
-    </div><!-- .container -->
-</div><!-- End Section -->
-
-
-
-
-    <div class="section section-pad-md section-bg" id="message">
-    <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-md-7">
-                                  <div class="text center">
-                   {%if status != 'success' %}
-                       {%if p > 0 %}
-                                      <div class="alert alert-danger alert-dismissible fade show" role="alert" style="min-height: 120px; margin-bottom: 120px">{{message.a}}}</div>
-                    {% endif %}
-                        {%if status == 'success' %}
-                               <div class="alert alert-success alert-dismissible fade show" role="alert" style="min-height: 120px;">{{message.a}}
-                            <strong> {{message.b}} </strong>to<strong> {{message.c}} </strong>
-                            {{message.d}}
+                <h1 style="font-size: 30px">Complaints tickets</h1>
+                <a  href="{% url 'create_ticket' %}">
+                <div class="col">
+                    <div>
+                    <img src="https://img.icons8.com/cute-clipart/64/000000/add-property.png"/>
                         </div>
-</div>          {% endif %}
+                    <div>
+                    <small>create ticket</small>
+                        </div>
+                </div>
+                </a>
+
+
             </div><!-- .col -->
         </div><!-- .row -->
     </div><!-- .container -->
@@ -94,16 +74,35 @@
 
 
     <!-- Start Section -->
-<div class="section  section-bg" id="btn">
+<div class="section " id="create">
     <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-md-7" style="margin-bottom: 58px">
-            <a href="{% url 'crypto' c %}">
-                       <button type="button" class="btns"  style="background-color:#0262f6; margin-top: 5px; min-width: 100%; min-height: 60px">
-              <span class="btn-inner--text" style=" font-size: 16px; color: white;">Go back to wallet</span>
-          </button>
-                          </a>
+        <div class="row ">
+            <div class="col-md-7">
 
+                {% for x in all_tic %}
+
+
+ <a  href="{% url 'open_ticket' x.id %}">
+                <div class="card" style=" margin-top: 10px">
+                    {%if x.stat == 'Unresolved' %}
+                    <label style="margin-left: 10px;">Status: <label style="color: orange; font-weight: 500">Unresolved</label></label>
+                    {% else %}
+                    <label style="margin-left: 10px;">Status: <label style="color: green; font-weight: 500">Resolved</label></label>
+                    {%endif%}
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <div class="col" style="margin-left: 5px; margin-top: -20px">
+                                <h2 style="font-weight: 500; font-size: 25px">Ticket title</h2>
+                                <label class="text-muted" style="">{{x.title}}</label>
+                            </div>
+                            <div style="margin-right: 10px">
+                                <img src="https://img.icons8.com/color/64/000000/complaint.png"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+                    </a>
             </div><!-- .col -->
         </div><!-- .row -->
     </div><!-- .container -->
@@ -111,15 +110,15 @@
 
 
 
-    <div class="section  no-pb">
-
+<div class="section section section-pad-md no-pb">
+    <div class=""></div>
     <div class="container">
         <div class="row justify-content-center ">
             <label class="text-muted"> © 2020 by Bitchedda</label>
-
         </div>
     </div>
 </div>
+
 
 
 <div id="preloader">

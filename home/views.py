@@ -10,6 +10,8 @@ from django.shortcuts import redirect
 import time
 from .process import bal_converter, investments, fiat_calculator, send_email
 from django.core.mail import send_mail
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # Create your views here.
@@ -54,13 +56,13 @@ def login_user(request):
                 page = 'pages/login.html'
                 template = loader.get_template(page)
                 context = {'message': 'Invalid e-mail or password! '}
-                return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         except Exception as e:
             page = 'pages/login.html'
             template = loader.get_template(page)
             context = {'timeout': e}
-            return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+            return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'POST'])
@@ -128,13 +130,13 @@ def dash(request):
             page = 'pages/login.html'
             template = loader.get_template(page)
             context = {'timeout': 'This session has expired, please log in again to continue.'}
-            return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+            return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
     except Exception as e:
         page = 'pages/login.html'
         template = loader.get_template(page)
         context = {'timeout': e}
-        return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'POST'])
@@ -162,7 +164,7 @@ def register(request):
                            'last_name': last_name, 'email': email, 'ref': ref}
                 page = 'pages/sign_up.html'
                 template = loader.get_template(page)
-                return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
             if password_1 != password_2:
                 context = {'message': 'Passwords do not match. please enter same password twice',
@@ -170,7 +172,7 @@ def register(request):
                                last_name, 'email': email, 'referral': ref, 'password_1': password_1}
                 page = 'pages/sign_up.html'
                 template = loader.get_template(page)
-                return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+                return HttpResponse(template.render(context, request),status=status.HTTP_200_OK)
 
             if username and password_1:
                 try:
@@ -181,7 +183,7 @@ def register(request):
                                    ref, 'password_1': password_1, 'password_2': password_2}
                     page = 'pages/register.html'
                     template = loader.get_template(page)
-                    return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+                    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
                 except Exception as e:
                     print(e)
@@ -196,14 +198,14 @@ def register(request):
                 page = 'pages/sign_up.html'
                 template = loader.get_template(page)
                 context = {'message': 'Something went wrong, please try again.'}
-                return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         except Exception as e:
             print(e)
             page = 'pages/sign_up.html'
             template = loader.get_template(page)
             context = {'message': 'Something went wrong, please try again.'}
-            return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+            return HttpResponse(template.render(context, request),status=status.HTTP_200_OK)
 
     else:
         redirect(home_page)
@@ -292,7 +294,7 @@ def otp_validator(request):
                 template = loader.get_template(page)
                 print(e)
                 context = {'error': e}
-                return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         else:
             page = 'pages/otp_.html'
@@ -300,7 +302,7 @@ def otp_validator(request):
             email = request.session['registration_details']['email']
             print('wrong')
             context = {'email': email, 'message': 'incorrect otp, please try again.'}
-            return HttpResponse(template.render(context, request), status=status.HTTP_406_NOT_ACCEPTABLE)
+            return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
     else:
         redirect(home_page)
 
@@ -343,4 +345,7 @@ def logout_view(request):
 def test(request):
     page = 'pages/test.html'
     template = loader.get_template(page)
-    return HttpResponse(template.render({'c': 'BITCOIN'}, request), status=status.HTTP_200_OK)
+    return HttpResponse(template.render({'tickets': [1, 2, 3, 4, 5], 'resolved': 'false'}, request),
+                        status=status.HTTP_200_OK)
+
+
