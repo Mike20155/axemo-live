@@ -25,6 +25,15 @@ def home_page(request):
     return HttpResponse(template.render({'header': 'TESTING ABOUT VIEW'}, request), status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def sitemap(request):
+    page = 'sitemap.xml'
+    template = loader.get_template(page)
+    logout(request)
+    return HttpResponse(template.render({'header': 'TESTING ABOUT VIEW'}, request), status=status.HTTP_200_OK)
+
+
+
 @api_view(['GET', 'POST'])
 def login_user(request):
     if request.method == 'GET':
