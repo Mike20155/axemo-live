@@ -181,7 +181,7 @@ def register(request):
                                last_name, 'email': email, 'referral': ref, 'password_1': password_1}
                 page = 'pages/sign_up.html'
                 template = loader.get_template(page)
-                return HttpResponse(template.render(context, request),status=status.HTTP_200_OK)
+                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
             if username and password_1:
                 try:
