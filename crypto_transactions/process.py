@@ -243,7 +243,8 @@ def save(param, to):
 
     user = User.objects.get(username=username)
     hist = History.objects.get(user=user)
-    param['amount'] = str("{:.8f}".format(param['amount']))
+    amt = float(param['amount'])
+    param['amount'] = str("{:.8f}".format(amt))
     param['to'] = f'{to[:20]}......'
     param['real_address'] = to
 

@@ -439,7 +439,7 @@ def check(request):
                         response = local(params, to)
 
                     if response == 'success':
-                        amount = params['crypto']
+                        amount = float(params['crypto'])
                         amount = str("{:.8f}".format(amount))
                         message = {'a': 'You have transferred', 'b': f'{amount} {symbol}', 'c': to,
                                    'd': 'successfully'}
