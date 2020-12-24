@@ -186,68 +186,79 @@ def receive(request):
 
 @api_view(['GET'])
 def send(request):
+    try:
+        currency = request.session['currency']
 
-    currency = request.session['currency']
+        logged_user = User.objects.get(username=request.user)
 
-    logged_user = User.objects.get(username=request.user)
+        user = UsersData.objects.get(user=logged_user)
+        message = request.session['message']
+        stats = request.session['current_status']
+        p = len(message)
 
-    user = UsersData.objects.get(user=logged_user)
-    message = request.session['message']
-    stats = request.session['current_status']
-    p = len(message)
+        request.session['message'] = ''
+        request.session['current_status'] = ''
 
-    request.session['message'] = ''
-    request.session['current_status'] = ''
+        btc = float(user.bitcoin_balance)
+        eth = float(user.etherum_balance)
+        ltc = float(user.litecoin_balance)
+        bch = float(user.bitcoin_cash_balance)
 
-    btc = float(user.bitcoin_balance)
-    eth = float(user.etherum_balance)
-    ltc = float(user.litecoin_balance)
-    bch = float(user.bitcoin_cash_balance)
+        btc_ = str("{:.8f}".format(btc))
+        eth_ = str("{:.8f}".format(eth))
+        ltc_ = str("{:.8f}".format(ltc))
+        bch_ = str("{:.8f}".format(bch))
 
-    btc_ = str("{:.8f}".format(btc))
-    eth_ = str("{:.8f}".format(eth))
-    ltc_ = str("{:.8f}".format(ltc))
-    bch_ = str("{:.8f}".format(bch))
+        balance = 0
+        symbol = None
+        crypt = 0
 
-    balance = 0
-    symbol = None
-    crypt = 0
+        if currency == 'BITCOIN':
+            balance = fiat_calculator(btc, 0, 0, 0)
+            symbol = 'BTC'
+            crypt = btc_
 
-    if currency == 'BITCOIN':
-        balance = fiat_calculator(btc, 0, 0, 0)
-        symbol = 'BTC'
-        crypt = btc_
+        elif currency == 'ETHERUM':
+            balance = fiat_calculator(0, eth, 0, 0)
+            symbol = 'ETH'
+            crypt = eth_
 
-    elif currency == 'ETHERUM':
-        balance = fiat_calculator(0, eth, 0, 0)
-        symbol = 'ETH'
-        crypt = eth_
+        elif currency == 'LITECOIN':
+            balance = fiat_calculator(0, 0, ltc, 0)
+            symbol = 'LTC'
+            crypt = ltc_
 
-    elif currency == 'LITECOIN':
-        balance = fiat_calculator(0, 0, ltc, 0)
-        symbol = 'LTC'
-        crypt = ltc_
+        elif currency == 'BITCOINCASH':
+            balance = fiat_calculator(0, 0, 0, bch)
+            symbol = 'BCH'
+            crypt = bch_
 
-    elif currency == 'BITCOINCASH':
-        balance = fiat_calculator(0, 0, 0, bch)
-        symbol = 'BCH'
-        crypt = bch_
+        balance = str("{:.1f}".format(balance))
+        balance = bal_converter(balance)
+        print(message)
+        print(stats)
+        print(p)
 
-    balance = str("{:.1f}".format(balance))
-    balance = bal_converter(balance)
-    print(message)
-    print(stats)
-    print(p)
+        page = 'pages/send.html'
+        template = loader.get_template(page)
 
-    page = 'pages/send.html'
-    template = loader.get_template(page)
+        request.session['fiat_balance'] = balance
 
-    request.session['fiat_balance'] = balance
+        context = {'crypt': crypt, 'fiat': balance, 'c': currency,
+                   'currency': currency.capitalize(), 'symbol': symbol, 'p': p, 'status': stats, 'message': message}
 
-    context = {'crypt': crypt,  'fiat': balance, 'c': currency,
-               'currency': currency.capitalize(),  'symbol': symbol, 'p': p, 'status': stats, 'message': message}
+        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
-    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        message = {'a': f'something went wrong, please try again later'}
+        page = 'pages/result.html'
+        template = loader.get_template(page)
+        currency = request.session['currency']
+        context = {'message': message, 'p': 1, 'status': 'failed', 'c': currency}
+
+        return HttpResponse(template.render(context, request),
+                            status=status.HTTP_200_OK)
 
 
 @api_view(['POST', 'GET'])
@@ -387,7 +398,6 @@ def check(request):
 
             user = params['user']
             amount = params['crypto']
-
 
             if User.objects.get(username=user):
                 user = User.objects.get(username=user)

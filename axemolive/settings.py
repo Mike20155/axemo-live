@@ -40,143 +40,141 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = [
-    '192.168.43.83',
-    '127.0.0.1',
-    '192.168.43.117'
-    'hidden-hollows-00126.herokuapp.com'
-    'www.bitchedda.com'
-]
+try:
+    DEBUG = True
 
+    ALLOWED_HOSTS = [
+        '192.168.43.83',
+        '127.0.0.1',
+        '192.168.43.117'
+        'hidden-hollows-00126.herokuapp.com'
+        'www.bitchedda.com'
+    ]
 
-# Application definition
+    # Application definition
 
-INSTALLED_APPS = [
-    'rest_framework',
-    'crypto_transactions.apps.CryptoTransactionsConfig',
-    'affiliate.apps.AffiliateConfig',
-    'deposit_withdraw.apps.DepositWithdrawConfig',
-    'investments.apps.InvestmentsConfig',
-    'notifications.apps.NotificationsConfig',
-    'support.apps.SupportConfig',
-    'home.apps.HomeConfig',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
+    INSTALLED_APPS = [
+        'rest_framework',
+        'crypto_transactions.apps.CryptoTransactionsConfig',
+        'affiliate.apps.AffiliateConfig',
+        'deposit_withdraw.apps.DepositWithdrawConfig',
+        'investments.apps.InvestmentsConfig',
+        'notifications.apps.NotificationsConfig',
+        'support.apps.SupportConfig',
+        'home.apps.HomeConfig',
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+    ]
 
-MIDDLEWARE = [
+    MIDDLEWARE = [
 
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ]
 
-ROOT_URLCONF = 'axemolive.urls'
+    ROOT_URLCONF = 'axemolive.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth',
+                    'django.contrib.messages.context_processors.messages',
+                ],
+            },
         },
-    },
-]
+    ]
 
-WSGI_APPLICATION = 'axemolive.wsgi.application'
+    WSGI_APPLICATION = 'axemolive.wsgi.application'
 
+    # Database
+    # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv("DB_ENGINE"),
+            'NAME': os.getenv("DB_NAME"),
+            'HOST': os.getenv("DB_HOST"),
+            'PORT': os.getenv("DB_PORT"),
+            'USER': os.getenv("DB_USER"),
+            'PASSWORD': os.getenv("DB_PASSWORD"),
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv("DB_ENGINE"),
-        'NAME': os.getenv("DB_NAME"),
-        'HOST':  os.getenv("DB_HOST"),
-        'PORT': os.getenv("DB_PORT"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-
+        }
     }
-}
 
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}"""
+    """DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }"""
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+    # Password validation
+    # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        },
+    ]
 
+    # Internationalization
+    # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
+    LANGUAGE_CODE = 'en-us'
 
-LANGUAGE_CODE = 'en-us'
+    TIME_ZONE = 'UTC'
 
-TIME_ZONE = 'UTC'
+    USE_I18N = True
 
-USE_I18N = True
+    USE_L10N = True
 
-USE_L10N = True
+    USE_TZ = True
 
-USE_TZ = True
+    EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
+    EMAIL_HOST = os.getenv("EMAIL_HOST")
+    EMAIL_PORT = os.getenv("EMAIL_PORT")
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
 
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = os.getenv("EMAIL_PORT")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+    STATIC_URL = "/static/"
 
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-STATIC_URL = "/static/"
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-django_heroku.settings(locals())
+    django_heroku.settings(locals())
+except Exception as e:
+    print(e)

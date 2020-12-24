@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="zxx" class="js">
+<head>
+    {% load static %}
+
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Terms and conditions">
+    <!-- Fav Icon -->
+    <link rel="icon" href="{% static 'statics_land/images/favicon.png' %}"><!-- Site Title  --><title>BitChedda</title><!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="{% static 'statics_land/assets/css/vendor.bundlee222.css' %} ">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{% static 'statics_land/assets/css/stylee222.css' %}">
+    <link rel="stylesheet" href="{% static 'statics_land/assets/css/theme-orangee222.css' %}" id="layoutstyle">
+    <meta name="theme-color" content="#0027e3">
+  <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#0027e3">
+  <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0027e3">
+
+</head>
+<body class="theme-light io-zinnia" data-spy="scroll" data-target="#mainnav" data-offset="80"><!-- Header -->
+<header class="site-header is-sticky"><!-- Place Particle Js -->
+    <div id="particles-js" class="particles-container particles-js"></div><!-- Navbar -->
+    <div class="navbar navbar-full navbar-expand-lg is-transparent" id="mainnav" style="background-color: #0027e3;"><a class="navbar-brand animated"
+                                                                                    data-animate="fadeInDown"
+                                                                                    data-delay=".65"
+                                                                                    href="{% url 'dash' %}">
+        <h3 style="color: white;">BitChedda</h3></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"><span
+                class="navbar-toggler-icon"><span class="ti ti-align-justify"></span></span></button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarToggle">
+            <ul class="navbar-nav animated remove-animation" data-animate="fadeInDown" data-delay=".35">
+                  <li class="nav-item"><a class="nav-link menu-link" href="{% url 'dash' %}" style="color: white;">Dashboard<span
+                        class="sr-only">(current)</span></a></li>
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'profile' %}" style="color: white;">My Profile</a></li>
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'home_page' %}" style="color: white;">Support</a></li>
+                <li class="nav-item"><a class="nav-link menu-link" href="{% url 'logout' %}" style="color: white;">Logout</a></li>
+            </ul>
+
+        </div>
+    </div><!-- End Navbar --><!-- Banner/Slider -->
+
+    <div class="section section-pad-md section-bg" id="ss">
+        <div class="container animated" data-animate="fadeInRight"
+                        data-delay=".95" style="margin-top: 10px;">
+                            <div class="row" style="min-width: 90%; margin-left: -5px;">
+
+                    </div>
+            <div class="row ">
+                <div class="col-md-7">
+
+                    <h2 style="font-weight: 500">Please select the currency you want to trade with from the options below.</h2>
+
+                        </div>
+                           <a href="">
+                <label style="color: blue;  font-size: 20px; margin-left: 15px">How does it work?</label>
+                        </a>
+                </div><!-- .col -->
+            </div><!-- .row -->
+        </div><!-- .container -->
+
+
+
+    <div class="section " id="s" style="margin-top: -100px; margin-bottom: 40px;">
+        <div class="container animated" data-animate="fadeInRight"
+                        data-delay=".95" style="margin-top: 50px;">
+            <div class="row justify-content-center">
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+width="64" height="64"
+viewBox="0 0 171 171"
+style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,171.99219v-171.99219h171.99219v171.99219z" fill="none"></path><g id="Layer_1"><path d="M165.65625,38.74219l-53.4375,-26.71875l-35.40234,13.22578l-10.01953,-5.21016l-28.05469,10.6875l10.01953,5.07656l-43.41797,16.29844v80.15625l53.4375,26.71875v-80.15625l42.75,-16.03125v88.17188l29.39063,-10.6875v-86.83594l-1.87031,-0.93516z" fill="#ffffff"></path><path d="M165.65625,34.73438c-2.27109,0 -4.00781,1.73672 -4.00781,4.00781v1.46953l-102.86719,38.60859v75.88125l-1.46953,0.53438c-2.1375,0.80156 -3.07266,3.07266 -2.40469,5.21016c0.66797,1.60313 2.1375,2.53828 3.74062,2.53828c0.53437,0 0.93516,-0.13359 1.46953,-0.26719l106.875,-40.07813c1.60313,-0.53437 2.53828,-2.1375 2.53828,-3.74062v-80.15625c0.13359,-2.27109 -1.60313,-4.00781 -3.87422,-4.00781z" fill="#71c2ff"></path><path d="M58.78125,82.82813c-0.66797,0 -1.20234,-0.13359 -1.73672,-0.40078l-53.4375,-26.71875c-1.46953,-0.80156 -2.40469,-2.27109 -2.27109,-3.87422c0.13359,-1.60312 1.06875,-2.93906 2.53828,-3.60703l27.52031,-10.28672c2.1375,-0.80156 4.40859,0.26719 5.21016,2.40469c0.80156,2.1375 -0.26719,4.40859 -2.40469,5.21016l-18.83672,7.08047l43.68516,21.77578l25.91719,-9.75234c2.00391,-0.80156 4.40859,0.26719 5.21016,2.40469c0.80156,2.1375 -0.26719,4.40859 -2.40469,5.21016l-27.52031,10.28672c-0.53437,0.13359 -0.93516,0.26719 -1.46953,0.26719z" fill="#444b54"></path><path d="M144.94922,50.49844c-1.60313,0 -3.20625,-0.93516 -3.74062,-2.53828c-0.80156,-2.1375 0.26719,-4.40859 2.40469,-5.21016l12.02344,-4.54219l-43.68516,-21.77578l-17.63438,6.67969c-2.1375,0.80156 -4.40859,-0.26719 -5.21016,-2.40469c-0.80156,-2.1375 0.26719,-4.40859 2.40469,-5.21016l19.2375,-7.21406c1.06875,-0.40078 2.1375,-0.26719 3.20625,0.13359l53.4375,26.71875c1.46953,0.66797 2.27109,2.1375 2.27109,3.74063c0,1.60312 -1.06875,2.93906 -2.53828,3.60703l-20.70703,7.74844c-0.40078,0.13359 -0.93516,0.26719 -1.46953,0.26719z" fill="#444b54"></path><path d="M101.53125,154.96875c-0.80156,0 -1.60313,-0.26719 -2.27109,-0.66797c-1.06875,-0.80156 -1.73672,-2.00391 -1.73672,-3.33984v-85.76719l-60.65156,-30.86016c-1.46953,-0.66797 -2.27109,-2.1375 -2.1375,-3.74063c0.13359,-1.60312 1.06875,-2.93906 2.53828,-3.47344l28.05469,-10.6875c1.06875,-0.40078 2.27109,-0.40078 3.33984,0.13359l64.125,33.39844c1.33594,0.66797 2.1375,2.00391 2.1375,3.60703v86.83594c0,1.73672 -1.06875,3.20625 -2.67187,3.74062l-29.39062,10.6875c-0.40078,0 -0.93516,0.13359 -1.33594,0.13359zM48.62813,31.26094l54.77344,27.92109c1.33594,0.66797 2.1375,2.00391 2.1375,3.60703v82.42734l21.375,-7.74844v-81.62578l-60.38438,-31.39453zM130.92188,140.27344v0z" fill="#444b54"></path><path d="M58.78125,109.54688c-0.66797,0 -1.20234,-0.13359 -1.73672,-0.40078l-53.4375,-26.71875c-2.00391,-0.93516 -2.80547,-3.33984 -1.73672,-5.34375c0.93516,-2.00391 3.33984,-2.80547 5.34375,-1.73672l53.4375,26.71875c2.00391,0.93516 2.80547,3.33984 1.73672,5.34375c-0.66797,1.33594 -2.1375,2.1375 -3.60703,2.1375z" fill="#444b54"></path><path d="M58.78125,136.26563c-0.66797,0 -1.20234,-0.13359 -1.73672,-0.40078l-53.4375,-26.71875c-2.00391,-0.93516 -2.80547,-3.33984 -1.73672,-5.34375c0.93516,-2.00391 3.33984,-2.80547 5.34375,-1.73672l53.4375,26.71875c2.00391,0.93516 2.80547,3.33984 1.73672,5.34375c-0.66797,1.33594 -2.1375,2.1375 -3.60703,2.1375z" fill="#444b54"></path><path d="M58.78125,162.98438c-0.66797,0 -1.20234,-0.13359 -1.73672,-0.40078l-53.4375,-26.71875c-2.00391,-0.93516 -2.80547,-3.33984 -1.73672,-5.34375c0.93516,-2.00391 3.33984,-2.80547 5.34375,-1.73672l53.4375,26.71875c2.00391,0.93516 2.80547,3.33984 1.73672,5.34375c-0.66797,1.33594 -2.1375,2.1375 -3.60703,2.1375z" fill="#444b54"></path></g></g></svg>
+            </div></div></div>
+
+
+  <div class="section" id="4" style="margin-top: 0px;">
+
+    <div class="container animated" data-animate="fadeInRight"
+                        data-delay=".95"  style="max-width: 200%;">
+                                <div class="card" style="margin-top: 0px; border-style: solid; border-color: #ffffff; box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);" >
+        <div class="card-headrer">
+
+        </div>
+                                    <a href="{% url 'invest_amount' 'BITCOIN'%}">
+        <div class="card-body">
+            <div class="row justify-content-between">
+
+            <div class="row">
+                <div style="margin-left: 20px;">
+                    <img src="https://img.icons8.com/fluent/34/000000/bitcoin.png"/>
+                </div>
+                <h2 style="margin-left: 10px; margin-top: 5px;">Bitcoin</h2>
+            </div>
+                <span class="ti ti-angle-right" style="color: blue; margin-top: 10px; margin-right: 20px"></span>
+            </div>
+
+        </div>
+                                        </a>
+    </div>
+
+
+                                <div class="card" style="margin-top: 20px; border-style: solid; border-color: #ffffff; box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);" >
+        <div class="card-headrer">
+
+        </div>
+                                    <a href="{% url 'invest_amount' 'ETHERUM' %}">
+        <div class="card-body">
+                     <div class="row justify-content-between">
+
+                <div class="row">
+                <div style="margin-left: 20px;">
+                              <img src="https://img.icons8.com/fluent/34/000000/ethereum.png"/>
+                </div>
+                <h2 style="margin-left: 10px; margin-top: 5px;">Ethereum</h2>
+            </div>
+                <span class="ti ti-angle-right" style="color: blue; margin-top: 10px; margin-right: 20px"></span>
+            </div>
+        </div>
+                                    </a>
+    </div>
+
+
+        <div class="card" style="margin-top: 20px; border-style: solid; border-color: #ffffff; box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);" >
+            <div class="card-headrer">
+            </div>
+            <a href="{% url 'invest_amount' 'LITECOIN' %}">
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <div class="row">
+                        <div style="margin-left: 20px;">
+                            <img src="https://img.icons8.com/fluent/34/000000/litecoin.png"/>
+                        </div>
+                        <h2 style="margin-left: 10px; margin-top: 5px;">Litecoin</h2>
+                    </div>
+                    <span class="ti ti-angle-right" style="color: blue; margin-top: 10px; margin-right: 20px"></span>
+                </div>
+            </div>
+            </a>
+        </div>
+
+                <div class="card" style="margin-top: 20px; border-style: solid; border-color: #ffffff; box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);" >
+            <div class="card-headrer">
+            </div>
+                    <a href="{% url 'invest_amount' 'BITCOINCASH' %}">
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <div class="row">
+                        <div style="margin-left: 20px;">
+                            <img src="{% static 'statics_land\images\bch2.png' %}">
+                        </div>
+                        <h2 style="margin-left: 10px; margin-top: 5px;">Bitcoincash</h2>
+                    </div>
+                    <span class="ti ti-angle-right" style="color: blue; margin-top: 10px; margin-right: 20px"></span>
+                </div>
+            </div>
+                    </a>
+        </div>
+
+
+    </div>
+
+    </div>
+
+
+
+    <div class="section  section-bg" id="btn">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-md-7" style="margin-bottom: 58px">
+            <a href="{% url 'dash' %}">
+                       <button type="button" class="btns"  style="background-color:red; margin-top: 40px; min-width: 100%; min-height: 60px">
+              <span class="btn-inner--text" style=" font-size: 16px; color: white;">Cancel</span>
+          </button>
+                          </a>
+
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- End Section -->
+
+
+
+    <div class="section" style="margin-top:0px;">
+    <div class="container">
+        <div class="row justify-content-center ">
+            <label class="text-muted"> © 2020 by Bitchedda</label>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="preloader">
+    <div id="loader"></div>
+    <div class="loader-section loader-top"></div>
+    <div class="loader-section loader-bottom"></div>
+</div><!-- Preloader End --><!-- JavaScript (include all script here) -->
+<script src="{% static 'statics_land/assets/js/jquery.bundlee222.js' %}"></script>
+<script src="{% static 'statics_land/assets/js/scripte222.js' %}"></script>
+</body>
+</html>

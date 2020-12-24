@@ -33,45 +33,49 @@ def sitemap(request):
     return HttpResponse(template.render({'header': 'TESTING ABOUT VIEW'}, request), status=status.HTTP_200_OK)
 
 
-
 @api_view(['GET', 'POST'])
 def login_user(request):
-    if request.method == 'GET':
-        page = 'pages/login.html'
-        template = loader.get_template(page)
-        logout(request)
-        return HttpResponse(template.render({'message': ''}, request), status=status.HTTP_200_OK)
-
-    if request.method == 'POST':
-        username = request.POST.get('email', '').rpartition('@')[0]
-        password = request.POST.get('password', '')
-        print(request.POST)
-
-        try:
-            user = authenticate(username=username, password=password)
-            if authenticate(username=username, password=password):
-                login(request, user)
-
-                request.session['current_user'] = username
-                request.session['user_password'] = password
-
-                request.session['session_timeout'] = time.time() + 100000
-                request.session['message'] = ''
-                request.session['current_status'] = ''
-
-                return redirect(dash)
-
-            else:
-                page = 'pages/login.html'
-                template = loader.get_template(page)
-                context = {'message': 'Invalid e-mail or password! '}
-                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
-
-        except Exception as e:
+    try:
+        if request.method == 'GET':
             page = 'pages/login.html'
             template = loader.get_template(page)
-            context = {'timeout': e}
-            return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+            logout(request)
+            return HttpResponse(template.render({'message': ''}, request), status=status.HTTP_200_OK)
+
+        if request.method == 'POST':
+            username = request.POST.get('email', '').rpartition('@')[0]
+            password = request.POST.get('password', '')
+            print(request.POST)
+
+            try:
+                user = authenticate(username=username, password=password)
+                if authenticate(username=username, password=password):
+                    login(request, user)
+
+                    request.session['current_user'] = username
+                    request.session['user_password'] = password
+
+                    request.session['session_timeout'] = time.time() + 100000
+                    request.session['message'] = ''
+                    request.session['current_status'] = ''
+
+                    return redirect(dash)
+
+                else:
+                    page = 'pages/login.html'
+                    template = loader.get_template(page)
+                    context = {'message': 'Invalid e-mail or password! '}
+                    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+
+            except Exception as e:
+                page = 'pages/login.html'
+                template = loader.get_template(page)
+                context = {'timeout': e}
+                return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(e)
+        redirect(home_page)
 
 
 @api_view(['GET', 'POST'])
@@ -299,10 +303,10 @@ def otp_validator(request):
                     redirect(home_page)
 
             except Exception as e:
-                page = 'pages/sign_up.html'
+                page = 'pages/otp_.html'
                 template = loader.get_template(page)
-                print(e)
-                context = {'error': e}
+                print('error')
+                context = {'message': e}
                 return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
         else:
@@ -318,41 +322,57 @@ def otp_validator(request):
 
 @api_view(['GET'])
 def confirm(request):
-    page = 'pages/confirm.html'
-    template = loader.get_template(page)
-    return HttpResponse(template.render({'header': ''}, request), status=status.HTTP_200_OK)
+    try:
+        page = 'pages/confirm.html'
+        template = loader.get_template(page)
+        return HttpResponse(template.render({'header': ''}, request), status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        redirect(dash)
 
 
 @api_view(['GET'])
 def profile(request):
-    page = 'pages/profile.html'
-    template = loader.get_template(page)
-    user = request.user
-    email = user.email
-    user = UsersData.objects.get(username=user)
-    first_name = user.first_name
-    last_name = user.last_name
-    date_created = user.date_created
-    context = {'email': email, 'first_name': first_name, 'last_name': last_name, 'date_created': date_created}
-    return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+    try:
+        page = 'pages/profile.html'
+        template = loader.get_template(page)
+        user = request.user
+        email = user.email
+        user = UsersData.objects.get(username=user)
+        first_name = user.first_name
+        last_name = user.last_name
+        date_created = user.date_created
+        context = {'email': email, 'first_name': first_name, 'last_name': last_name, 'date_created': date_created}
+        return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        redirect(dash)
 
 
 @api_view(['GET'])
 def terms(request):
-    page = 'pages/terms&c.html'
-    template = loader.get_template(page)
-    return HttpResponse(template.render({'header': 'Terms and conditions'}, request), status=status.HTTP_200_OK)
+    try:
+        page = 'pages/terms&c.html'
+        template = loader.get_template(page)
+        return HttpResponse(template.render({'header': 'Terms and conditions'}, request), status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        redirect(home_page)
 
 
 @api_view(['GET'])
 def logout_view(request):
-    logout(request)
-    return redirect(login_user)
+    try:
+        logout(request)
+        return redirect(login_user)
+    except Exception as e:
+        print(e)
+        redirect(home_page)
 
 
 @api_view(['GET'])
 def test(request):
-    page = 'pages/test.html'
+    page = 'pages/invest2.html'
     template = loader.get_template(page)
     return HttpResponse(template.render({'tickets': [1, 2, 3, 4, 5], 'resolved': 'false'}, request),
                         status=status.HTTP_200_OK)
