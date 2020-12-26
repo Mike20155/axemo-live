@@ -146,6 +146,7 @@ def dash(request):
             return HttpResponse(template.render(context, request), status=status.HTTP_200_OK)
 
     except Exception as e:
+        print(e)
         page = 'pages/login.html'
         template = loader.get_template(page)
         context = {'timeout': e}

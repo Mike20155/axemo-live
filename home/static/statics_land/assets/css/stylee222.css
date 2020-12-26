@@ -1716,8 +1716,8 @@ select:focus {
       .navbar .navbar-nav > li > a.nav-link.btn:hover {
         color: #fff; }
     .navbar .navbar-nav > li > a.nav-link.active {
-      color: #46bdf4;
-      background: transparent; }
+      color: #2b51cb;
+       }
 .navbar .navbar-nav > li > .dropdown-menu .nav-opened .dropdown-menu,
 .navbar .navbar-nav > li > .dropdown-menu .dropdown-menu {
   top: 0;
